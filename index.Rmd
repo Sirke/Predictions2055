@@ -17,7 +17,7 @@ output:
 
 ***
   
-```{r child = "part1.Rmd"}
+```{r child = "markdowns/part1.Rmd"}
 ```
   
 ***

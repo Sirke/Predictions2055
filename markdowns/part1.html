@@ -188,11 +188,11 @@ summary {
 <h1>Muutokset</h1>
 <pre class="r"><code>#packages
 getwd()</code></pre>
-<pre><code>## [1] &quot;C:/Users/Sirke Piirainen/OneDrive - University of Helsinki/github_mallinnus/changes2055/markdowns&quot;</code></pre>
+<pre><code>## [1] &quot;C:/Users/Sirke Piirainen/OneDrive - University of Helsinki/github_mallinnus/Predictions2055/markdowns&quot;</code></pre>
 <pre class="r"><code>paketit&lt;-c(&quot;here&quot;,&quot;dplyr&quot;,&quot;purrr&quot;,&quot;tidyverse&quot;)
 lapply(paketit,library,character.only=T)</code></pre>
 <pre><code>## Warning: package 'here' was built under R version 3.6.3</code></pre>
-<pre><code>## here() starts at C:/Users/Sirke Piirainen/OneDrive - University of Helsinki/github_mallinnus/changes2055</code></pre>
+<pre><code>## here() starts at C:/Users/Sirke Piirainen/OneDrive - University of Helsinki/github_mallinnus/Predictions2055</code></pre>
 <pre><code>## 
 ## Attaching package: 'dplyr'</code></pre>
 <pre><code>## The following objects are masked from 'package:stats':
@@ -228,8 +228,9 @@ lapply(paketit,library,character.only=T)</code></pre>
 ## [16] &quot;methods&quot;   &quot;base&quot;</code></pre>
 <div id="aineiston-yhdistely" class="section level2">
 <h2>Aineiston yhdistely</h2>
+<p>Load data</p>
 <pre class="r"><code>here::here()</code></pre>
-<pre><code>## [1] &quot;C:/Users/Sirke Piirainen/OneDrive - University of Helsinki/github_mallinnus/changes2055&quot;</code></pre>
+<pre><code>## [1] &quot;C:/Users/Sirke Piirainen/OneDrive - University of Helsinki/github_mallinnus/Predictions2055&quot;</code></pre>
 <pre class="r"><code>abupres &lt;- read.csv(here(&quot;data&quot;, &quot;EPREDY_abu_pres.csv&quot;))
 abu26 &lt;- read.csv(here(&quot;data&quot;, &quot;EPREDY_abu_26.csv&quot;))
 abu45&lt;- read.csv(here(&quot;data&quot;, &quot;EPREDY_abu_45.csv&quot;))
