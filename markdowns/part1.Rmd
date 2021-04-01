@@ -1,0 +1,67 @@
+---
+title: "Changes"
+author: "Sirke"
+date: "1 huhtikuuta 2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Muutokset
+
+```{r}
+#packages
+getwd()
+paketit<-c("here","dplyr","purrr","tidyverse")
+lapply(paketit,library,character.only=T)
+```
+
+## Aineiston yhdistely
+
+```{r}
+here::here()
+abupres <- read.csv(here("data", "EPREDY_abu_pres.csv"))
+abu26 <- read.csv(here("data", "EPREDY_abu_26.csv"))
+abu45<- read.csv(here("data", "EPREDY_abu_45.csv"))
+abu85<- read.csv(here("data", "EPREDY_abu_85.csv"))
+papres<- read.csv(here("data", "EPREDY_pa_pres.csv"))
+pa26<- read.csv(here("data", "EPREDY_pa_26.csv"))
+pa45 <- read.csv(here("data", "EPREDY_pa_45.csv"))
+pa85 <- read.csv(here("data", "EPREDY_pa_85.csv"))
+grid <- read.csv(here("data", "XY.grid10_abu_85.csv"))
+
+#jos haluaisin yhdistää kaikki csv:t yhteen dataframeen
+#filefolder <- here("data")
+#files <- dir(filefolder, pattern = "*.csv",full.names = T)
+#files
+#data <- files %>%
+#  map(read_csv) %>% 
+#  reduce(cbind)
+```
+
+
+```{r}
+plot(grid)
+```
+
+```{r}
+summary(abupres)
+```
+
+```{r}
+#changes in total abundances from present to 2055 in scenario 26
+abundances_pres=colSums(exp(abupres))
+abundances_pres
+
+abundances_26=colSums(exp(abu26))
+abundances_26
+
+#muutos
+abuchange26=abundances_pres-abundances_26
+abuchange26
+
+sort(abuchange26)
+```
+
