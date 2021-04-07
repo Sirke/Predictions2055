@@ -271,7 +271,7 @@ div.tocify {
 <pre class="r"><code>#packages
 getwd()</code></pre>
 <pre><code>## [1] &quot;C:/Users/Sirke Piirainen/OneDrive - University of Helsinki/github_mallinnus/Predictions2055/markdowns&quot;</code></pre>
-<pre class="r"><code>paketit&lt;-c(&quot;here&quot;,&quot;dplyr&quot;,&quot;purrr&quot;,&quot;tidyverse&quot;)
+<pre class="r"><code>paketit&lt;-c(&quot;here&quot;,&quot;dplyr&quot;,&quot;purrr&quot;,&quot;tidyverse&quot;,&quot;tidyr&quot;)
 lapply(paketit,library,character.only=T)</code></pre>
 <pre><code>## Warning: package 'here' was built under R version 3.6.3</code></pre>
 <pre><code>## here() starts at C:/Users/Sirke Piirainen/OneDrive - University of Helsinki/github_mallinnus/Predictions2055</code></pre>
@@ -284,11 +284,11 @@ lapply(paketit,library,character.only=T)</code></pre>
 ## 
 ##     intersect, setdiff, setequal, union</code></pre>
 <pre><code>## Warning: package 'purrr' was built under R version 3.6.3</code></pre>
-<pre><code>## -- Attaching packages ------------------------------------------------------- tidyverse 1.3.0 --</code></pre>
+<pre><code>## -- Attaching packages ----------------------------------------------------------------------------- tidyverse 1.3.0 --</code></pre>
 <pre><code>## v ggplot2 3.2.1     v readr   1.3.1
 ## v tibble  2.1.3     v stringr 1.4.0
 ## v tidyr   1.0.0     v forcats 0.4.0</code></pre>
-<pre><code>## -- Conflicts ---------------------------------------------------------- tidyverse_conflicts() --
+<pre><code>## -- Conflicts -------------------------------------------------------------------------------- tidyverse_conflicts() --
 ## x dplyr::filter() masks stats::filter()
 ## x dplyr::lag()    masks stats::lag()</code></pre>
 <pre><code>## [[1]]
@@ -304,6 +304,12 @@ lapply(paketit,library,character.only=T)</code></pre>
 ##  [6] &quot;grDevices&quot; &quot;utils&quot;     &quot;datasets&quot;  &quot;methods&quot;   &quot;base&quot;     
 ## 
 ## [[4]]
+##  [1] &quot;forcats&quot;   &quot;stringr&quot;   &quot;readr&quot;     &quot;tidyr&quot;     &quot;tibble&quot;   
+##  [6] &quot;ggplot2&quot;   &quot;tidyverse&quot; &quot;purrr&quot;     &quot;dplyr&quot;     &quot;here&quot;     
+## [11] &quot;stats&quot;     &quot;graphics&quot;  &quot;grDevices&quot; &quot;utils&quot;     &quot;datasets&quot; 
+## [16] &quot;methods&quot;   &quot;base&quot;     
+## 
+## [[5]]
 ##  [1] &quot;forcats&quot;   &quot;stringr&quot;   &quot;readr&quot;     &quot;tidyr&quot;     &quot;tibble&quot;   
 ##  [6] &quot;ggplot2&quot;   &quot;tidyverse&quot; &quot;purrr&quot;     &quot;dplyr&quot;     &quot;here&quot;     
 ## [11] &quot;stats&quot;     &quot;graphics&quot;  &quot;grDevices&quot; &quot;utils&quot;     &quot;datasets&quot; 
@@ -332,748 +338,167 @@ grid &lt;- read.csv(here(&quot;data&quot;, &quot;XY.grid10_abu_85.csv&quot;))
 #  reduce(cbind)</code></pre>
 <pre class="r"><code>plot(grid)</code></pre>
 <p><img src="data:image/png;base64,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" width="576" /></p>
-<pre class="r"><code>summary(abupres)</code></pre>
-<pre><code>##  Acrocephalus_palustris Acrocephalus_schoenobaenus Acrocephalus_scirpaceus
-##  Min.   :-1.5726        Min.   :-0.85617           Min.   :-2.4065        
-##  1st Qu.:-0.5571        1st Qu.:-0.29626           1st Qu.:-2.1235        
-##  Median :-0.2787        Median :-0.16791           Median :-1.9935        
-##  Mean   :-0.2683        Mean   :-0.16797           Mean   :-1.8920        
-##  3rd Qu.: 0.0736        3rd Qu.:-0.02021           3rd Qu.:-1.7691        
-##  Max.   : 1.1100        Max.   : 0.84354           Max.   :-0.1269        
-##  Actitis_hypoleucos Aegithalos_caudatus Alauda_arvensis  
-##  Min.   :-0.40417   Min.   :-2.4383     Min.   :-0.8300  
-##  1st Qu.:-0.21605   1st Qu.:-1.8440     1st Qu.:-0.4036  
-##  Median :-0.15596   Median :-1.7043     Median :-0.2093  
-##  Mean   :-0.11699   Mean   :-1.7235     Mean   :-0.1031  
-##  3rd Qu.:-0.06899   3rd Qu.:-1.5659     3rd Qu.: 0.0313  
-##  Max.   : 0.66190   Max.   :-0.8011     Max.   : 2.4747  
-##   Anas_crecca      Anas_platyrhynchos  Anser_anser     Anthus_pratensis  
-##  Min.   :-1.7910   Min.   :-2.8832    Min.   :-3.438   Min.   :-1.67971  
-##  1st Qu.:-1.3814   1st Qu.:-1.9195    1st Qu.:-1.968   1st Qu.:-0.98788  
-##  Median :-1.3122   Median :-1.6875    Median :-1.623   Median :-0.67224  
-##  Mean   :-1.2433   Mean   :-1.6127    Mean   :-1.562   Mean   :-0.43735  
-##  3rd Qu.:-1.2252   3rd Qu.:-1.4028    3rd Qu.:-1.180   3rd Qu.:-0.01824  
-##  Max.   : 0.2805   Max.   : 0.8104    Max.   : 1.178   Max.   : 1.65891  
-##  Anthus_trivialis   Apus_apus        Ardea_cinerea     Aythya_fuligula  
-##  Min.   :-1.045   Min.   :-2.78190   Min.   :-0.9588   Min.   :-1.0030  
-##  1st Qu.: 0.899   1st Qu.:-2.14127   1st Qu.:-0.5113   1st Qu.:-0.6189  
-##  Median : 1.140   Median :-1.95042   Median :-0.4219   Median :-0.5242  
-##  Mean   : 1.066   Mean   :-1.81916   Mean   :-0.3620   Mean   :-0.4262  
-##  3rd Qu.: 1.357   3rd Qu.:-1.62785   3rd Qu.:-0.2794   3rd Qu.:-0.3881  
-##  Max.   : 1.813   Max.   : 0.01249   Max.   : 0.7879   Max.   : 1.6710  
-##  Bonasa_bonasia     Branta_canadensis Bucephala_clangula  Buteo_buteo     
-##  Min.   :-0.34096   Min.   :-2.8753   Min.   :-1.8131    Min.   :-0.8061  
-##  1st Qu.:-0.09131   1st Qu.:-1.8824   1st Qu.:-1.3983    1st Qu.:-0.2377  
-##  Median :-0.01343   Median :-1.6078   Median :-1.3021    Median :-0.1800  
-##  Mean   :-0.04357   Mean   :-1.5508   Mean   :-1.2327    Mean   :-0.1673  
-##  3rd Qu.: 0.02232   3rd Qu.:-1.3093   3rd Qu.:-1.1635    3rd Qu.:-0.1001  
-##  Max.   : 0.13533   Max.   : 0.7351   Max.   : 0.5135    Max.   : 0.4862  
-##  Carduelis_cannabina Carduelis_carduelis Carduelis_chloris
-##  Min.   :-3.3235     Min.   :-1.2313     Min.   :-1.2298  
-##  1st Qu.:-2.7523     1st Qu.:-0.9503     1st Qu.:-0.8814  
-##  Median :-2.5208     Median :-0.8754     Median :-0.7769  
-##  Mean   :-2.2079     Mean   :-0.8665     Mean   :-0.6620  
-##  3rd Qu.:-1.6741     3rd Qu.:-0.7821     3rd Qu.:-0.5515  
-##  Max.   : 0.3036     Max.   :-0.3743     Max.   : 0.8240  
-##  Carduelis_flammea  Carduelis_spinus  Carpodacus_erythrinus
-##  Min.   :-0.94016   Min.   :0.05257   Min.   :0.1930       
-##  1st Qu.:-0.06243   1st Qu.:0.77911   1st Qu.:0.4889       
-##  Median : 0.12494   Median :0.99786   Median :0.6126       
-##  Mean   : 0.10754   Mean   :0.95631   Mean   :0.6362       
-##  3rd Qu.: 0.30038   3rd Qu.:1.17045   3rd Qu.:0.7943       
-##  Max.   : 0.81525   Max.   :1.59525   Max.   :1.1283       
-##  Certhia_familiaris Coccothraustes_coccothraustes Columba_livia     
-##  Min.   :-0.76008   Min.   :-0.29106              Min.   :-0.53234  
-##  1st Qu.:-0.05255   1st Qu.:-0.04567              1st Qu.:-0.08973  
-##  Median : 0.12747   Median : 0.01048              Median : 0.00608  
-##  Mean   : 0.07383   Mean   : 0.02038              Mean   : 0.02132  
-##  3rd Qu.: 0.27625   3rd Qu.: 0.08978              3rd Qu.: 0.12504  
-##  Max.   : 0.58796   Max.   : 0.48220              Max.   : 0.66821  
-##  Columba_oenas     Columba_palumbus   Corvus_corax      Corvus_corone    
-##  Min.   :-0.9665   Min.   :-2.7450   Min.   :-0.64873   Min.   :-1.5536  
-##  1st Qu.:-0.5846   1st Qu.:-0.7765   1st Qu.:-0.47784   1st Qu.:-0.9164  
-##  Median :-0.4725   Median :-0.2926   Median :-0.42984   Median :-0.7325  
-##  Mean   :-0.2241   Mean   :-0.3141   Mean   :-0.41950   Mean   :-0.5697  
-##  3rd Qu.: 0.1633   3rd Qu.: 0.2993   3rd Qu.:-0.35743   3rd Qu.:-0.3121  
-##  Max.   : 1.3340   Max.   : 1.8854   Max.   :-0.04467   Max.   : 1.4030  
-##  Corvus_monedula    Cuculus_canorus    Cygnus_cygnus      Cygnus_olor    
-##  Min.   :-4.06266   Min.   :-0.08707   Min.   :-1.1535   Min.   :-4.271  
-##  1st Qu.:-3.05104   1st Qu.: 0.44373   1st Qu.:-0.8655   1st Qu.:-3.383  
-##  Median :-2.73229   Median : 0.51759   Median :-0.8043   Median :-3.064  
-##  Mean   :-2.62632   Mean   : 0.50270   Mean   :-0.7723   Mean   :-2.904  
-##  3rd Qu.:-2.27368   3rd Qu.: 0.57933   3rd Qu.:-0.7115   3rd Qu.:-2.641  
-##  Max.   :-0.08517   Max.   : 0.88045   Max.   :-0.1679   Max.   : 0.645  
-##  Delichon_urbicum  Dendrocopos_major Dryocopus_martius 
-##  Min.   :-3.0433   Min.   :-1.0999   Min.   :-0.21536  
-##  1st Qu.:-2.5865   1st Qu.:-0.3776   1st Qu.: 0.07844  
-##  Median :-2.4453   Median :-0.2361   Median : 0.13515  
-##  Mean   :-2.2868   Mean   :-0.2634   Mean   : 0.12705  
-##  3rd Qu.:-2.2021   3rd Qu.:-0.1081   3rd Qu.: 0.18661  
-##  Max.   : 0.2162   Max.   : 0.1281   Max.   : 0.35527  
-##  Emberiza_citrinella Emberiza_rustica  Emberiza_schoeniclus
-##  Min.   :0.005015    Min.   :-1.6310   Min.   :-0.7425957  
-##  1st Qu.:0.551414    1st Qu.:-0.4188   1st Qu.:-0.4075888  
-##  Median :0.664654    Median :-0.2454   Median :-0.2475176  
-##  Mean   :0.742450    Mean   :-0.3053   Mean   :-0.2145071  
-##  3rd Qu.:0.857685    3rd Qu.:-0.1303   3rd Qu.:-0.0007313  
-##  Max.   :2.346957    Max.   : 0.2498   Max.   : 0.4035039  
-##  Erithacus_rubecula Falco_tinnunculus    Ficedula_hypoleuca
-##  Min.   :-0.2680    Min.   :-0.3770463   Min.   :-0.6249   
-##  1st Qu.: 0.8515    1st Qu.:-0.2237756   1st Qu.: 0.0187   
-##  Median : 1.2407    Median :-0.1930978   Median : 0.2276   
-##  Mean   : 1.1926    Mean   :-0.1956317   Mean   : 0.1360   
-##  3rd Qu.: 1.5755    3rd Qu.:-0.1644937   3rd Qu.: 0.3095   
-##  Max.   : 2.3727    Max.   :-0.0008645   Max.   : 0.6905   
-##  Fringilla_coelebs Fringilla_montifringilla  Fulica_atra     
-##  Min.   :0.6297    Min.   :-3.4815          Min.   :-4.3202  
-##  1st Qu.:2.3345    1st Qu.:-1.3625          1st Qu.:-2.8849  
-##  Median :3.0048    Median :-0.9057          Median :-2.5307  
-##  Mean   :2.8552    Mean   :-0.9334          Mean   :-2.4998  
-##  3rd Qu.:3.4705    3rd Qu.:-0.4379          3rd Qu.:-2.1154  
-##  Max.   :4.1131    Max.   : 0.7288          Max.   :-0.0887  
-##  Gallinago_gallinago Garrulus_glandarius Gavia_arctica     
-##  Min.   :-0.8150     Min.   :-1.12085    Min.   :-0.25581  
-##  1st Qu.:-0.3233     1st Qu.:-0.45069    1st Qu.: 0.02963  
-##  Median :-0.2467     Median :-0.20551    Median : 0.11717  
-##  Mean   :-0.2456     Mean   :-0.24942    Mean   : 0.11396  
-##  3rd Qu.:-0.1666     3rd Qu.:-0.01423    3rd Qu.: 0.17994  
-##  Max.   : 0.4443     Max.   : 0.36633    Max.   : 0.92926  
-##  Gavia_stellata        Grus_grus         Haematopus_ostralegus
-##  Min.   :-0.002157   Min.   :-1.400008   Min.   :-2.0651      
-##  1st Qu.: 0.120878   1st Qu.:-1.060534   1st Qu.:-0.6474      
-##  Median : 0.175559   Median :-0.945549   Median :-0.3956      
-##  Mean   : 0.179102   Mean   :-0.929036   Mean   :-0.2156      
-##  3rd Qu.: 0.216493   3rd Qu.:-0.827832   3rd Qu.: 0.1343      
-##  Max.   : 0.605981   Max.   : 0.002325   Max.   : 2.2779      
-##  Hippolais_icterina Hirundo_rustica    Jynx_torquilla    Lagopus_lagopus  
-##  Min.   :-0.7548    Min.   :-2.30527   Min.   :-0.4273   Min.   :-1.4313  
-##  1st Qu.:-0.4640    1st Qu.:-1.95206   1st Qu.:-0.3096   1st Qu.:-1.1968  
-##  Median :-0.3275    Median :-1.84613   Median :-0.2926   Median :-1.0941  
-##  Mean   :-0.2724    Mean   :-1.72549   Mean   :-0.2914   Mean   :-0.9687  
-##  3rd Qu.:-0.1616    3rd Qu.:-1.64620   3rd Qu.:-0.2744   3rd Qu.:-0.7984  
-##  Max.   : 0.8717    Max.   :-0.04541   Max.   :-0.1700   Max.   : 0.5717  
-##  Lanius_collurio   Larus_argentatus  Larus_canus      Larus_marinus   
-##  Min.   :-0.8487   Min.   :-3.481   Min.   :-1.4269   Min.   :-3.279  
-##  1st Qu.:-0.6304   1st Qu.:-2.678   1st Qu.:-0.7850   1st Qu.:-2.651  
-##  Median :-0.5607   Median :-2.378   Median :-0.6026   Median :-2.459  
-##  Mean   :-0.5350   Mean   :-2.141   Mean   :-0.4719   Mean   :-2.197  
-##  3rd Qu.:-0.4468   3rd Qu.:-1.892   3rd Qu.:-0.3408   3rd Qu.:-1.863  
-##  Max.   :-0.1453   Max.   : 1.762   Max.   : 2.0735   Max.   : 1.041  
-##  Larus_ridibundus  Loxia_curvirostra Loxia_pytyopsittacus
-##  Min.   :-2.0044   Min.   :-1.2426   Min.   :-2.4966     
-##  1st Qu.:-1.2242   1st Qu.:-0.7750   1st Qu.:-2.0235     
-##  Median :-0.9879   Median :-0.6650   Median :-1.9128     
-##  Mean   :-0.8967   Mean   :-0.6397   Mean   :-1.8479     
-##  3rd Qu.:-0.7085   3rd Qu.:-0.5845   3rd Qu.:-1.7394     
-##  Max.   : 1.1119   Max.   : 0.7627   Max.   :-0.3175     
-##  Lullula_arborea   Luscinia_luscinia Luscinia_svecica   Mergus_merganser 
-##  Min.   :0.04852   Min.   :-2.5120   Min.   :-0.79657   Min.   :-1.4173  
-##  1st Qu.:0.46448   1st Qu.:-1.6639   1st Qu.:-0.32326   1st Qu.:-1.1052  
-##  Median :0.54034   Median :-1.3248   Median :-0.12394   Median :-1.0080  
-##  Mean   :0.62543   Mean   :-1.3162   Mean   :-0.06193   Mean   :-0.9207  
-##  3rd Qu.:0.71598   3rd Qu.:-1.0353   3rd Qu.: 0.19781   3rd Qu.:-0.9385  
-##  Max.   :1.39341   Max.   : 0.1574   Max.   : 0.69878   Max.   : 1.3093  
-##  Motacilla_alba    Motacilla_flava   Muscicapa_striata Numenius_arquata  
-##  Min.   :-1.4232   Min.   :-1.5491   Min.   :0.3611    Min.   :-1.28965  
-##  1st Qu.:-1.0329   1st Qu.:-0.8764   1st Qu.:0.6326    1st Qu.:-0.37706  
-##  Median :-0.9024   Median :-0.6707   Median :0.7638    Median :-0.08249  
-##  Mean   :-0.8104   Mean   :-0.6593   Mean   :0.7317    Mean   :-0.02274  
-##  3rd Qu.:-0.6734   3rd Qu.:-0.4470   3rd Qu.:0.8281    3rd Qu.: 0.26506  
-##  Max.   : 0.5965   Max.   : 0.5229   Max.   :0.9737    Max.   : 1.56211  
-##  Numenius_phaeopus Oenanthe_oenanthe Pandion_haliaetus   Parus_ater      
-##  Min.   :-0.8197   Min.   :-1.5697   Min.   :-0.7538   Min.   :-0.85841  
-##  1st Qu.:-0.4367   1st Qu.:-0.9409   1st Qu.:-0.5223   1st Qu.:-0.31126  
-##  Median :-0.2902   Median :-0.8038   Median :-0.4694   Median :-0.09662  
-##  Mean   :-0.2873   Mean   :-0.6060   Mean   :-0.4505   Mean   :-0.14628  
-##  3rd Qu.:-0.1421   3rd Qu.:-0.2858   3rd Qu.:-0.3981   3rd Qu.: 0.04593  
-##  Max.   : 0.4673   Max.   : 0.7425   Max.   : 0.1591   Max.   : 0.40996  
-##  Parus_caeruleus    Parus_cristatus   Parus_major       Parus_montanus    
-##  Min.   :-2.05215   Min.   :0.1641   Min.   :-1.92411   Min.   :-0.38565  
-##  1st Qu.:-0.53893   1st Qu.:0.5117   1st Qu.:-0.07099   1st Qu.: 0.09361  
-##  Median :-0.29011   Median :0.6582   Median : 0.36222   Median : 0.17578  
-##  Mean   :-0.32377   Mean   :0.6450   Mean   : 0.30555   Mean   : 0.14224  
-##  3rd Qu.: 0.08619   3rd Qu.:0.7781   3rd Qu.: 0.87517   3rd Qu.: 0.23530  
-##  Max.   : 0.79827   Max.   :1.1828   Max.   : 1.71359   Max.   : 0.38418  
-##  Parus_palustris   Passer_domesticus  Passer_montanus  
-##  Min.   :-0.6696   Min.   :-0.47467   Min.   :-1.6601  
-##  1st Qu.:-0.4037   1st Qu.:-0.26019   1st Qu.:-0.7428  
-##  Median :-0.3554   Median :-0.15244   Median :-0.4763  
-##  Mean   :-0.3408   Mean   :-0.06155   Mean   :-0.4947  
-##  3rd Qu.:-0.3046   3rd Qu.: 0.05305   3rd Qu.:-0.2168  
-##  Max.   : 0.3920   Max.   : 1.01875   Max.   : 0.9249  
-##  Perisoreus_infaustus Phalacrocorax_carbo Phasianus_colchicus
-##  Min.   :-1.9931      Min.   :-1.8646     Min.   :-1.09484   
-##  1st Qu.:-1.7615      1st Qu.:-0.8403     1st Qu.:-0.35933   
-##  Median :-1.6867      Median :-0.6842     Median :-0.12153   
-##  Mean   :-1.6551      Mean   :-0.5335     Mean   :-0.06768   
-##  3rd Qu.:-1.6049      3rd Qu.:-0.3834     3rd Qu.: 0.23095   
-##  Max.   :-0.6313      Max.   : 2.2339     Max.   : 1.23378   
-##  Phoenicurus_phoenicurus Phylloscopus_collybita Phylloscopus_sibilatrix
-##  Min.   :-1.7327         Min.   :0.1111         Min.   :-0.6172        
-##  1st Qu.:-0.9840         1st Qu.:0.4401         1st Qu.: 0.3852        
-##  Median :-0.7409         Median :0.4999         Median : 0.5648        
-##  Mean   :-0.7628         Mean   :0.5017         Mean   : 0.5348        
-##  3rd Qu.:-0.5372         3rd Qu.:0.5641         3rd Qu.: 0.8034        
-##  Max.   : 0.3158         Max.   :0.9563         Max.   : 1.3768        
-##  Phylloscopus_trochilus   Pica_pica       Picus_viridis    
-##  Min.   :1.119          Min.   :-0.4477   Min.   :-0.1868  
-##  1st Qu.:1.680          1st Qu.:-0.2643   1st Qu.: 0.1284  
-##  Median :1.852          Median :-0.2027   Median : 0.2152  
-##  Mean   :1.810          Mean   :-0.1620   Mean   : 0.1907  
-##  3rd Qu.:1.957          3rd Qu.:-0.1099   3rd Qu.: 0.2627  
-##  Max.   :2.617          Max.   : 0.9002   Max.   : 0.4625  
-##  Pluvialis_apricaria Podiceps_cristatus Prunella_modularis
-##  Min.   :-1.9965     Min.   :-3.6251    Min.   :-0.1087   
-##  1st Qu.:-1.4093     1st Qu.:-2.0998    1st Qu.: 0.4777   
-##  Median :-1.1768     Median :-1.7694    Median : 0.5900   
-##  Mean   :-1.0229     Mean   :-1.7790    Mean   : 0.5707   
-##  3rd Qu.:-0.8072     3rd Qu.:-1.4231    3rd Qu.: 0.6819   
-##  Max.   : 0.5709     Max.   : 0.7912    Max.   : 1.0424   
-##  Pyrrhula_pyrrhula  Regulus_regulus   Saxicola_rubetra 
-##  Min.   :-0.05593   Min.   :-0.3479   Min.   :-1.5981  
-##  1st Qu.: 0.28621   1st Qu.: 0.3857   1st Qu.:-0.4509  
-##  Median : 0.32165   Median : 0.6833   Median :-0.3807  
-##  Mean   : 0.31640   Mean   : 0.6510   Mean   :-0.3903  
-##  3rd Qu.: 0.35441   3rd Qu.: 0.9231   3rd Qu.:-0.2704  
-##  Max.   : 0.47100   Max.   : 1.6294   Max.   : 0.4159  
-##  Scolopax_rusticola   Sitta_europaea    Sterna_hirundo   
-##  Min.   :-0.1896995   Min.   :-1.0884   Min.   :-2.7803  
-##  1st Qu.:-0.0180057   1st Qu.: 0.2347   1st Qu.:-2.2902  
-##  Median : 0.0132129   Median : 0.4626   Median :-2.1170  
-##  Mean   :-0.0004327   Mean   : 0.3674   Mean   :-1.9655  
-##  3rd Qu.: 0.0326918   3rd Qu.: 0.7134   3rd Qu.:-1.8625  
-##  Max.   : 0.2084270   Max.   : 1.1608   Max.   : 0.7109  
-##  Sturnus_vulgaris  Sylvia_atricapilla  Sylvia_borin      Sylvia_communis  
-##  Min.   :-4.4382   Min.   :-4.1612    Min.   :-1.42642   Min.   :-1.7475  
-##  1st Qu.:-3.4570   1st Qu.:-1.8603    1st Qu.:-0.05944   1st Qu.:-1.0042  
-##  Median :-3.0781   Median :-1.4082    Median : 0.19885   Median :-0.6594  
-##  Mean   :-2.9139   Mean   :-1.4394    Mean   : 0.18619   Mean   :-0.6346  
-##  3rd Qu.:-2.4859   3rd Qu.:-0.7857    3rd Qu.: 0.57101   3rd Qu.:-0.2894  
-##  Max.   :-0.3027   Max.   : 0.2706    Max.   : 1.35124   Max.   : 0.9218  
-##  Sylvia_curruca    Tetrao_tetrix      Tetrao_urogallus  Tringa_glareola  
-##  Min.   :-0.3266   Min.   :-0.42784   Min.   :-1.0914   Min.   :-1.6406  
-##  1st Qu.: 0.2614   1st Qu.: 0.08077   1st Qu.:-0.5589   1st Qu.:-1.1440  
-##  Median : 0.3881   Median : 0.16192   Median :-0.4775   Median :-0.9403  
-##  Mean   : 0.3805   Mean   : 0.14142   Mean   :-0.5024   Mean   :-0.9060  
-##  3rd Qu.: 0.4992   3rd Qu.: 0.22239   3rd Qu.:-0.4300   3rd Qu.:-0.7045  
-##  Max.   : 0.9918   Max.   : 0.51603   Max.   :-0.1586   Max.   : 0.6445  
-##  Tringa_nebularia  Tringa_ochropus     Tringa_totanus     
-##  Min.   :-0.7743   Min.   :-0.641890   Min.   :-0.497215  
-##  1st Qu.:-0.3939   1st Qu.:-0.064053   1st Qu.:-0.168689  
-##  Median :-0.3000   Median : 0.022515   Median : 0.001198  
-##  Mean   :-0.3029   Mean   : 0.002501   Mean   : 0.082932  
-##  3rd Qu.:-0.2131   3rd Qu.: 0.091032   3rd Qu.: 0.298001  
-##  Max.   : 0.2562   Max.   : 0.372126   Max.   : 1.334745  
-##  Troglodytes_troglodytes Turdus_iliacus     Turdus_merula     
-##  Min.   :-1.73950        Min.   :-0.65667   Min.   :-2.50945  
-##  1st Qu.:-0.73037        1st Qu.:-0.19189   1st Qu.:-0.56166  
-##  Median :-0.31779        Median :-0.03002   Median : 0.06458  
-##  Mean   :-0.34966        Mean   :-0.03447   Mean   : 0.03065  
-##  3rd Qu.: 0.03388        3rd Qu.: 0.10348   3rd Qu.: 0.71042  
-##  Max.   : 0.97236        Max.   : 0.80784   Max.   : 1.87416  
-##  Turdus_philomelos Turdus_pilaris    Turdus_torquatus   Turdus_viscivorus
-##  Min.   :-0.6874   Min.   :-0.2449   Min.   :-0.82790   Min.   :-0.8696  
-##  1st Qu.: 0.2912   1st Qu.: 0.7357   1st Qu.:-0.26984   1st Qu.:-0.5240  
-##  Median : 0.6460   Median : 0.8979   Median :-0.15254   Median :-0.4329  
-##  Mean   : 0.5640   Mean   : 0.8944   Mean   :-0.07204   Mean   :-0.4545  
-##  3rd Qu.: 0.8810   3rd Qu.: 1.0641   3rd Qu.: 0.12601   3rd Qu.:-0.3702  
-##  Max.   : 1.3576   Max.   : 2.2646   Max.   : 0.70451   Max.   :-0.2564  
-##  Vanellus_vanellus
-##  Min.   :-0.3082  
-##  1st Qu.: 0.3867  
-##  Median : 0.5588  
-##  Mean   : 0.6351  
-##  3rd Qu.: 0.8500  
-##  Max.   : 1.8797</code></pre>
-<pre class="r"><code>#changes in total abundances from present to 2055 in scenario 26
-abundances_pres=colSums(exp(abupres))
-abundances_pres</code></pre>
-<pre><code>##        Acrocephalus_palustris    Acrocephalus_schoenobaenus 
-##                    10086.0921                    10360.1667 
-##       Acrocephalus_scirpaceus            Actitis_hypoleucos 
-##                     1932.9134                    10714.2898 
-##           Aegithalos_caudatus               Alauda_arvensis 
-##                     2181.6708                    12182.0629 
-##                   Anas_crecca            Anas_platyrhynchos 
-##                     3601.2268                     2848.4128 
-##                   Anser_anser              Anthus_pratensis 
-##                     3401.6073                    10596.1163 
-##              Anthus_trivialis                     Apus_apus 
-##                    36921.4886                     2210.6169 
-##                 Ardea_cinerea               Aythya_fuligula 
-##                     8569.2556                     8675.0395 
-##                Bonasa_bonasia             Branta_canadensis 
-##                    11417.9083                     3076.7656 
-##            Bucephala_clangula                   Buteo_buteo 
-##                     3745.0609                    10155.7370 
-##           Carduelis_cannabina           Carduelis_carduelis 
-##                     1811.6517                     5044.9807 
-##             Carduelis_chloris             Carduelis_flammea 
-##                     6596.1786                    13697.7871 
-##              Carduelis_spinus         Carpodacus_erythrinus 
-##                    32045.7785                    22869.1078 
-##            Certhia_familiaris Coccothraustes_coccothraustes 
-##                    13227.5360                    12193.8350 
-##                 Columba_livia                 Columba_oenas 
-##                    12316.4106                    11023.0632 
-##              Columba_palumbus                  Corvus_corax 
-##                    11610.4778                     7844.1201 
-##                 Corvus_corone               Corvus_monedula 
-##                     7875.9993                     1098.2136 
-##               Cuculus_canorus                 Cygnus_cygnus 
-##                    19781.6820                     5546.4192 
-##                   Cygnus_olor              Delichon_urbicum 
-##                     1020.7746                     1458.9112 
-##             Dendrocopos_major             Dryocopus_martius 
-##                     9299.6269                    13535.3329 
-##           Emberiza_citrinella              Emberiza_rustica 
-##                    26337.8803                     9002.2109 
-##          Emberiza_schoeniclus            Erithacus_rubecula 
-##                     9862.4572                    43803.4798 
-##             Falco_tinnunculus            Ficedula_hypoleuca 
-##                     9779.7524                    14037.8644 
-##             Fringilla_coelebs      Fringilla_montifringilla 
-##                   259046.0043                     5773.6333 
-##                   Fulica_atra           Gallinago_gallinago 
-##                     1263.4069                     9404.0821 
-##           Garrulus_glandarius                 Gavia_arctica 
-##                     9664.9522                    13451.8192 
-##                Gavia_stellata                     Grus_grus 
-##                    14261.2056                     4792.4778 
-##         Haematopus_ostralegus            Hippolais_icterina 
-##                    12485.5811                     9424.4860 
-##               Hirundo_rustica                Jynx_torquilla 
-##                     2304.1928                     8878.6700 
-##               Lagopus_lagopus               Lanius_collurio 
-##                     4791.2863                     7015.8460 
-##              Larus_argentatus                   Larus_canus 
-##                     2530.1383                     9029.3010 
-##                 Larus_marinus              Larus_ridibundus 
-##                     1879.0227                     5528.5454 
-##             Loxia_curvirostra          Loxia_pytyopsittacus 
-##                     6501.2328                     1977.7659 
-##               Lullula_arborea             Luscinia_luscinia 
-##                    23080.1502                     3533.9657 
-##              Luscinia_svecica              Mergus_merganser 
-##                    11895.0537                     5385.3101 
-##                Motacilla_alba               Motacilla_flava 
-##                     5682.3006                     6453.0122 
-##             Muscicapa_striata              Numenius_arquata 
-##                    24884.1151                    13394.0818 
-##             Numenius_phaeopus             Oenanthe_oenanthe 
-##                     9092.0536                     7333.2968 
-##             Pandion_haliaetus                    Parus_ater 
-##                     7639.4231                    10616.8921 
-##               Parus_caeruleus               Parus_cristatus 
-##                     9714.0819                    23038.9883 
-##                   Parus_major                Parus_montanus 
-##                    19816.5163                    13809.1232 
-##               Parus_palustris             Passer_domesticus 
-##                     8548.0547                    11685.3701 
-##               Passer_montanus          Perisoreus_infaustus 
-##                     8102.6295                     2312.4492 
-##           Phalacrocorax_carbo           Phasianus_colchicus 
-##                     8748.9891                    12081.3920 
-##       Phoenicurus_phoenicurus        Phylloscopus_collybita 
-##                     5792.0785                    19713.8789 
-##       Phylloscopus_sibilatrix        Phylloscopus_trochilus 
-##                    21418.7591                    74441.1729 
-##                     Pica_pica                 Picus_viridis 
-##                    10263.9149                    14450.8411 
-##           Pluvialis_apricaria            Podiceps_cristatus 
-##                     5147.3037                     2506.8998 
-##            Prunella_modularis             Pyrrhula_pyrrhula 
-##                    21286.1902                    16326.0360 
-##               Regulus_regulus              Saxicola_rubetra 
-##                    24576.6134                     8260.2000 
-##            Scolopax_rusticola                Sitta_europaea 
-##                    11893.2980                    18737.3333 
-##                Sterna_hirundo              Sturnus_vulgaris 
-##                     2048.6434                      900.4185 
-##            Sylvia_atricapilla                  Sylvia_borin 
-##                     3713.5699                    16034.6521 
-##               Sylvia_communis                Sylvia_curruca 
-##                     7007.9988                    17664.3212 
-##                 Tetrao_tetrix              Tetrao_urogallus 
-##                    13774.2491                     7232.9120 
-##               Tringa_glareola              Tringa_nebularia 
-##                     5094.0896                     8858.9943 
-##               Tringa_ochropus                Tringa_totanus 
-##                    12008.0158                    13684.2536 
-##       Troglodytes_troglodytes                Turdus_iliacus 
-##                     9489.2165                    11737.2751 
-##                 Turdus_merula             Turdus_philomelos 
-##                    16769.5381                    22502.4611 
-##                Turdus_pilaris              Turdus_torquatus 
-##                    30299.5635                    11481.3246 
-##             Turdus_viscivorus             Vanellus_vanellus 
-##                     7580.0177                    23817.9124</code></pre>
-<pre class="r"><code>abundances_26=colSums(exp(abu26))
-abundances_26</code></pre>
-<pre><code>##        Acrocephalus_palustris    Acrocephalus_schoenobaenus 
-##                     9200.3906                    11097.5216 
-##       Acrocephalus_scirpaceus            Actitis_hypoleucos 
-##                     2027.0406                    10892.6581 
-##           Aegithalos_caudatus               Alauda_arvensis 
-##                     2241.4034                    13471.4451 
-##                   Anas_crecca            Anas_platyrhynchos 
-##                     3648.9422                     2805.9643 
-##                   Anser_anser              Anthus_pratensis 
-##                     3308.6027                    11070.2104 
-##              Anthus_trivialis                     Apus_apus 
-##                    37950.8677                     2364.4946 
-##                 Ardea_cinerea               Aythya_fuligula 
-##                     9422.9511                     9729.3230 
-##                Bonasa_bonasia             Branta_canadensis 
-##                    11534.5059                     2885.9121 
-##            Bucephala_clangula                   Buteo_buteo 
-##                     3907.4218                    10474.5362 
-##           Carduelis_cannabina           Carduelis_carduelis 
-##                     1822.7603                     5084.4057 
-##             Carduelis_chloris             Carduelis_flammea 
-##                     6985.8584                    15403.2605 
-##              Carduelis_spinus         Carpodacus_erythrinus 
-##                    34244.7663                    25098.0698 
-##            Certhia_familiaris Coccothraustes_coccothraustes 
-##                    13382.8953                    12743.8203 
-##                 Columba_livia                 Columba_oenas 
-##                    12613.8202                    11603.8861 
-##              Columba_palumbus                  Corvus_corax 
-##                    10609.8641                     8127.2192 
-##                 Corvus_corone               Corvus_monedula 
-##                     7870.0952                      914.0840 
-##               Cuculus_canorus                 Cygnus_cygnus 
-##                    20392.9679                     5647.0878 
-##                   Cygnus_olor              Delichon_urbicum 
-##                      993.8066                     1384.6921 
-##             Dendrocopos_major             Dryocopus_martius 
-##                     9448.7833                    13555.9349 
-##           Emberiza_citrinella              Emberiza_rustica 
-##                    29182.1341                     8841.2507 
-##          Emberiza_schoeniclus            Erithacus_rubecula 
-##                    10371.3208                    40371.6706 
-##             Falco_tinnunculus            Ficedula_hypoleuca 
-##                     9475.9893                    15517.8998 
-##             Fringilla_coelebs      Fringilla_montifringilla 
-##                   249843.2950                     6531.7132 
-##                   Fulica_atra           Gallinago_gallinago 
-##                     1141.4149                    10393.6295 
-##           Garrulus_glandarius                 Gavia_arctica 
-##                     9223.7616                    13922.0358 
-##                Gavia_stellata                     Grus_grus 
-##                    13997.4839                     4977.5459 
-##         Haematopus_ostralegus            Hippolais_icterina 
-##                    12327.6806                     9304.0456 
-##               Hirundo_rustica                Jynx_torquilla 
-##                     2290.8050                     9289.4542 
-##               Lagopus_lagopus               Lanius_collurio 
-##                     4692.7063                     7242.1066 
-##              Larus_argentatus                   Larus_canus 
-##                     2362.8603                     9720.8420 
-##                 Larus_marinus              Larus_ridibundus 
-##                     1681.3211                     5860.7122 
-##             Loxia_curvirostra          Loxia_pytyopsittacus 
-##                     5695.8616                     1784.8192 
-##               Lullula_arborea             Luscinia_luscinia 
-##                    24333.6491                     3841.8618 
-##              Luscinia_svecica              Mergus_merganser 
-##                    12609.7954                     6111.8961 
-##                Motacilla_alba               Motacilla_flava 
-##                     5795.1521                     6812.9137 
-##             Muscicapa_striata              Numenius_arquata 
-##                    26839.7948                    16732.6434 
-##             Numenius_phaeopus             Oenanthe_oenanthe 
-##                     8886.0513                     7330.9402 
-##             Pandion_haliaetus                    Parus_ater 
-##                     7520.1837                    10695.8472 
-##               Parus_caeruleus               Parus_cristatus 
-##                     9875.3845                    23968.6365 
-##                   Parus_major                Parus_montanus 
-##                    19802.8129                    14380.9230 
-##               Parus_palustris             Passer_domesticus 
-##                     8710.9483                    12698.0386 
-##               Passer_montanus          Perisoreus_infaustus 
-##                     7561.5496                     2204.8883 
-##           Phalacrocorax_carbo           Phasianus_colchicus 
-##                    10034.7685                    11861.7708 
-##       Phoenicurus_phoenicurus        Phylloscopus_collybita 
-##                     6483.1478                    17780.1072 
-##       Phylloscopus_sibilatrix        Phylloscopus_trochilus 
-##                    21079.9271                    75219.8908 
-##                     Pica_pica                 Picus_viridis 
-##                    10028.6804                    14818.8299 
-##           Pluvialis_apricaria            Podiceps_cristatus 
-##                     5296.8566                     2515.7069 
-##            Prunella_modularis             Pyrrhula_pyrrhula 
-##                    20210.5071                    16684.3018 
-##               Regulus_regulus              Saxicola_rubetra 
-##                    24525.4646                     8138.4059 
-##            Scolopax_rusticola                Sitta_europaea 
-##                    12351.5300                    19485.1583 
-##                Sterna_hirundo              Sturnus_vulgaris 
-##                     2034.4449                      792.7189 
-##            Sylvia_atricapilla                  Sylvia_borin 
-##                     2702.8769                    16314.8629 
-##               Sylvia_communis                Sylvia_curruca 
-##                     6645.5926                    17535.1126 
-##                 Tetrao_tetrix              Tetrao_urogallus 
-##                    14239.9478                     7380.8772 
-##               Tringa_glareola              Tringa_nebularia 
-##                     6053.1118                     8930.1125 
-##               Tringa_ochropus                Tringa_totanus 
-##                    11870.9529                    14356.6350 
-##       Troglodytes_troglodytes                Turdus_iliacus 
-##                     7844.1304                    13009.6603 
-##                 Turdus_merula             Turdus_philomelos 
-##                    14309.4958                    20433.5575 
-##                Turdus_pilaris              Turdus_torquatus 
-##                    33581.7549                    11823.9523 
-##             Turdus_viscivorus             Vanellus_vanellus 
-##                     7618.7732                    25864.8079</code></pre>
-<pre class="r"><code>#muutos
-abuchange26=abundances_pres-abundances_26
-abuchange26</code></pre>
-<pre><code>##        Acrocephalus_palustris    Acrocephalus_schoenobaenus 
-##                    885.701484                   -737.354838 
-##       Acrocephalus_scirpaceus            Actitis_hypoleucos 
-##                    -94.127263                   -178.368327 
-##           Aegithalos_caudatus               Alauda_arvensis 
-##                    -59.732559                  -1289.382141 
-##                   Anas_crecca            Anas_platyrhynchos 
-##                    -47.715410                     42.448485 
-##                   Anser_anser              Anthus_pratensis 
-##                     93.004582                   -474.094134 
-##              Anthus_trivialis                     Apus_apus 
-##                  -1029.379062                   -153.877737 
-##                 Ardea_cinerea               Aythya_fuligula 
-##                   -853.695588                  -1054.283546 
-##                Bonasa_bonasia             Branta_canadensis 
-##                   -116.597596                    190.853507 
-##            Bucephala_clangula                   Buteo_buteo 
-##                   -162.360863                   -318.799194 
-##           Carduelis_cannabina           Carduelis_carduelis 
-##                    -11.108590                    -39.425002 
-##             Carduelis_chloris             Carduelis_flammea 
-##                   -389.679851                  -1705.473411 
-##              Carduelis_spinus         Carpodacus_erythrinus 
-##                  -2198.987831                  -2228.961964 
-##            Certhia_familiaris Coccothraustes_coccothraustes 
-##                   -155.359377                   -549.985245 
-##                 Columba_livia                 Columba_oenas 
-##                   -297.409611                   -580.822972 
-##              Columba_palumbus                  Corvus_corax 
-##                   1000.613663                   -283.099183 
-##                 Corvus_corone               Corvus_monedula 
-##                      5.904087                    184.129657 
-##               Cuculus_canorus                 Cygnus_cygnus 
-##                   -611.285886                   -100.668543 
-##                   Cygnus_olor              Delichon_urbicum 
-##                     26.967999                     74.219122 
-##             Dendrocopos_major             Dryocopus_martius 
-##                   -149.156354                    -20.601939 
-##           Emberiza_citrinella              Emberiza_rustica 
-##                  -2844.253802                    160.960158 
-##          Emberiza_schoeniclus            Erithacus_rubecula 
-##                   -508.863549                   3431.809179 
-##             Falco_tinnunculus            Ficedula_hypoleuca 
-##                    303.763175                  -1480.035498 
-##             Fringilla_coelebs      Fringilla_montifringilla 
-##                   9202.709335                   -758.079935 
-##                   Fulica_atra           Gallinago_gallinago 
-##                    121.991975                   -989.547366 
-##           Garrulus_glandarius                 Gavia_arctica 
-##                    441.190577                   -470.216602 
-##                Gavia_stellata                     Grus_grus 
-##                    263.721709                   -185.068131 
-##         Haematopus_ostralegus            Hippolais_icterina 
-##                    157.900465                    120.440384 
-##               Hirundo_rustica                Jynx_torquilla 
-##                     13.387792                   -410.784145 
-##               Lagopus_lagopus               Lanius_collurio 
-##                     98.580032                   -226.260641 
-##              Larus_argentatus                   Larus_canus 
-##                    167.278058                   -691.541016 
-##                 Larus_marinus              Larus_ridibundus 
-##                    197.701595                   -332.166785 
-##             Loxia_curvirostra          Loxia_pytyopsittacus 
-##                    805.371127                    192.946722 
-##               Lullula_arborea             Luscinia_luscinia 
-##                  -1253.498826                   -307.896109 
-##              Luscinia_svecica              Mergus_merganser 
-##                   -714.741735                   -726.586053 
-##                Motacilla_alba               Motacilla_flava 
-##                   -112.851485                   -359.901453 
-##             Muscicapa_striata              Numenius_arquata 
-##                  -1955.679647                  -3338.561622 
-##             Numenius_phaeopus             Oenanthe_oenanthe 
-##                    206.002328                      2.356603 
-##             Pandion_haliaetus                    Parus_ater 
-##                    119.239373                    -78.955064 
-##               Parus_caeruleus               Parus_cristatus 
-##                   -161.302633                   -929.648234 
-##                   Parus_major                Parus_montanus 
-##                     13.703437                   -571.799805 
-##               Parus_palustris             Passer_domesticus 
-##                   -162.893611                  -1012.668458 
-##               Passer_montanus          Perisoreus_infaustus 
-##                    541.079932                    107.560880 
-##           Phalacrocorax_carbo           Phasianus_colchicus 
-##                  -1285.779360                    219.621206 
-##       Phoenicurus_phoenicurus        Phylloscopus_collybita 
-##                   -691.069306                   1933.771736 
-##       Phylloscopus_sibilatrix        Phylloscopus_trochilus 
-##                    338.832033                   -778.717918 
-##                     Pica_pica                 Picus_viridis 
-##                    235.234521                   -367.988766 
-##           Pluvialis_apricaria            Podiceps_cristatus 
-##                   -149.552917                     -8.807106 
-##            Prunella_modularis             Pyrrhula_pyrrhula 
-##                   1075.683120                   -358.265801 
-##               Regulus_regulus              Saxicola_rubetra 
-##                     51.148849                    121.794143 
-##            Scolopax_rusticola                Sitta_europaea 
-##                   -458.231989                   -747.824976 
-##                Sterna_hirundo              Sturnus_vulgaris 
-##                     14.198492                    107.699575 
-##            Sylvia_atricapilla                  Sylvia_borin 
-##                   1010.692951                   -280.210853 
-##               Sylvia_communis                Sylvia_curruca 
-##                    362.406224                    129.208537 
-##                 Tetrao_tetrix              Tetrao_urogallus 
-##                   -465.698774                   -147.965241 
-##               Tringa_glareola              Tringa_nebularia 
-##                   -959.022157                    -71.118193 
-##               Tringa_ochropus                Tringa_totanus 
-##                    137.062935                   -672.381322 
-##       Troglodytes_troglodytes                Turdus_iliacus 
-##                   1645.086185                  -1272.385134 
-##                 Turdus_merula             Turdus_philomelos 
-##                   2460.042292                   2068.903569 
-##                Turdus_pilaris              Turdus_torquatus 
-##                  -3282.191455                   -342.627680 
-##             Turdus_viscivorus             Vanellus_vanellus 
-##                    -38.755516                  -2046.895426</code></pre>
-<pre class="r"><code>sort(abuchange26)</code></pre>
-<pre><code>##              Numenius_arquata                Turdus_pilaris 
-##                  -3338.561622                  -3282.191455 
-##           Emberiza_citrinella         Carpodacus_erythrinus 
-##                  -2844.253802                  -2228.961964 
-##              Carduelis_spinus             Vanellus_vanellus 
-##                  -2198.987831                  -2046.895426 
-##             Muscicapa_striata             Carduelis_flammea 
-##                  -1955.679647                  -1705.473411 
-##            Ficedula_hypoleuca               Alauda_arvensis 
-##                  -1480.035498                  -1289.382141 
-##           Phalacrocorax_carbo                Turdus_iliacus 
-##                  -1285.779360                  -1272.385134 
-##               Lullula_arborea               Aythya_fuligula 
-##                  -1253.498826                  -1054.283546 
-##              Anthus_trivialis             Passer_domesticus 
-##                  -1029.379062                  -1012.668458 
-##           Gallinago_gallinago               Tringa_glareola 
-##                   -989.547366                   -959.022157 
-##               Parus_cristatus                 Ardea_cinerea 
-##                   -929.648234                   -853.695588 
-##        Phylloscopus_trochilus      Fringilla_montifringilla 
-##                   -778.717918                   -758.079935 
-##                Sitta_europaea    Acrocephalus_schoenobaenus 
-##                   -747.824976                   -737.354838 
-##              Mergus_merganser              Luscinia_svecica 
-##                   -726.586053                   -714.741735 
-##                   Larus_canus       Phoenicurus_phoenicurus 
-##                   -691.541016                   -691.069306 
-##                Tringa_totanus               Cuculus_canorus 
-##                   -672.381322                   -611.285886 
-##                 Columba_oenas                Parus_montanus 
-##                   -580.822972                   -571.799805 
-## Coccothraustes_coccothraustes          Emberiza_schoeniclus 
-##                   -549.985245                   -508.863549 
-##              Anthus_pratensis                 Gavia_arctica 
-##                   -474.094134                   -470.216602 
-##                 Tetrao_tetrix            Scolopax_rusticola 
-##                   -465.698774                   -458.231989 
-##                Jynx_torquilla             Carduelis_chloris 
-##                   -410.784145                   -389.679851 
-##                 Picus_viridis               Motacilla_flava 
-##                   -367.988766                   -359.901453 
-##             Pyrrhula_pyrrhula              Turdus_torquatus 
-##                   -358.265801                   -342.627680 
-##              Larus_ridibundus                   Buteo_buteo 
-##                   -332.166785                   -318.799194 
-##             Luscinia_luscinia                 Columba_livia 
-##                   -307.896109                   -297.409611 
-##                  Corvus_corax                  Sylvia_borin 
-##                   -283.099183                   -280.210853 
-##               Lanius_collurio                     Grus_grus 
-##                   -226.260641                   -185.068131 
-##            Actitis_hypoleucos               Parus_palustris 
-##                   -178.368327                   -162.893611 
-##            Bucephala_clangula               Parus_caeruleus 
-##                   -162.360863                   -161.302633 
-##            Certhia_familiaris                     Apus_apus 
-##                   -155.359377                   -153.877737 
-##           Pluvialis_apricaria             Dendrocopos_major 
-##                   -149.552917                   -149.156354 
-##              Tetrao_urogallus                Bonasa_bonasia 
-##                   -147.965241                   -116.597596 
-##                Motacilla_alba                 Cygnus_cygnus 
-##                   -112.851485                   -100.668543 
-##       Acrocephalus_scirpaceus                    Parus_ater 
-##                    -94.127263                    -78.955064 
-##              Tringa_nebularia           Aegithalos_caudatus 
-##                    -71.118193                    -59.732559 
-##                   Anas_crecca           Carduelis_carduelis 
-##                    -47.715410                    -39.425002 
-##             Turdus_viscivorus             Dryocopus_martius 
-##                    -38.755516                    -20.601939 
-##           Carduelis_cannabina            Podiceps_cristatus 
-##                    -11.108590                     -8.807106 
-##             Oenanthe_oenanthe                 Corvus_corone 
-##                      2.356603                      5.904087 
-##               Hirundo_rustica                   Parus_major 
-##                     13.387792                     13.703437 
-##                Sterna_hirundo                   Cygnus_olor 
-##                     14.198492                     26.967999 
-##            Anas_platyrhynchos               Regulus_regulus 
-##                     42.448485                     51.148849 
-##              Delichon_urbicum                   Anser_anser 
-##                     74.219122                     93.004582 
-##               Lagopus_lagopus          Perisoreus_infaustus 
-##                     98.580032                    107.560880 
-##              Sturnus_vulgaris             Pandion_haliaetus 
-##                    107.699575                    119.239373 
-##            Hippolais_icterina              Saxicola_rubetra 
-##                    120.440384                    121.794143 
-##                   Fulica_atra                Sylvia_curruca 
-##                    121.991975                    129.208537 
-##               Tringa_ochropus         Haematopus_ostralegus 
-##                    137.062935                    157.900465 
-##              Emberiza_rustica              Larus_argentatus 
-##                    160.960158                    167.278058 
-##               Corvus_monedula             Branta_canadensis 
-##                    184.129657                    190.853507 
-##          Loxia_pytyopsittacus                 Larus_marinus 
-##                    192.946722                    197.701595 
-##             Numenius_phaeopus           Phasianus_colchicus 
-##                    206.002328                    219.621206 
-##                     Pica_pica                Gavia_stellata 
-##                    235.234521                    263.721709 
-##             Falco_tinnunculus       Phylloscopus_sibilatrix 
-##                    303.763175                    338.832033 
-##               Sylvia_communis           Garrulus_glandarius 
-##                    362.406224                    441.190577 
-##               Passer_montanus             Loxia_curvirostra 
-##                    541.079932                    805.371127 
-##        Acrocephalus_palustris              Columba_palumbus 
-##                    885.701484                   1000.613663 
-##            Sylvia_atricapilla            Prunella_modularis 
-##                   1010.692951                   1075.683120 
-##       Troglodytes_troglodytes        Phylloscopus_collybita 
-##                   1645.086185                   1933.771736 
-##             Turdus_philomelos                 Turdus_merula 
-##                   2068.903569                   2460.042292 
-##            Erithacus_rubecula             Fringilla_coelebs 
-##                   3431.809179                   9202.709335</code></pre>
+<pre class="r"><code>str(abupres)</code></pre>
+<pre><code>## 'data.frame':    11878 obs. of  120 variables:
+##  $ Acrocephalus_palustris       : num  -1.57 -1.52 -1.5 -1.51 -1.46 ...
+##  $ Acrocephalus_schoenobaenus   : num  -0.769 -0.744 -0.734 -0.754 -0.679 ...
+##  $ Acrocephalus_scirpaceus      : num  -2.4 -2.4 -2.41 -2.38 -2.36 ...
+##  $ Actitis_hypoleucos           : num  -0.257 -0.24 -0.279 -0.247 -0.268 ...
+##  $ Aegithalos_caudatus          : num  -2.44 -2.39 -2.42 -2.38 -2.38 ...
+##  $ Alauda_arvensis              : num  0.0238 -0.02993 -0.04051 -0.00468 -0.10387 ...
+##  $ Anas_crecca                  : num  -1.54 -1.5 -1.54 -1.51 -1.58 ...
+##  $ Anas_platyrhynchos           : num  -2.84 -2.76 -2.8 -2.77 -2.77 ...
+##  $ Anser_anser                  : num  -3.43 -3.36 -3.36 -3.36 -3.19 ...
+##  $ Anthus_pratensis             : num  1.61 1.51 1.4 1.53 1.34 ...
+##  $ Anthus_trivialis             : num  0.673 0.754 0.742 0.729 0.702 ...
+##  $ Apus_apus                    : num  -2.43 -2.39 -2.47 -2.37 -2.46 ...
+##  $ Ardea_cinerea                : num  -0.238 -0.252 -0.299 -0.252 -0.34 ...
+##  $ Aythya_fuligula              : num  -0.925 -0.932 -0.926 -0.901 -0.883 ...
+##  $ Bonasa_bonasia               : num  -0.315 -0.305 -0.284 -0.3 -0.265 ...
+##  $ Branta_canadensis            : num  -2.85 -2.8 -2.82 -2.78 -2.74 ...
+##  $ Bucephala_clangula           : num  -1.78 -1.75 -1.76 -1.76 -1.75 ...
+##  $ Buteo_buteo                  : num  -0.244 -0.23 -0.243 -0.229 -0.246 ...
+##  $ Carduelis_cannabina          : num  -1.07 -1.09 -1.18 -1.08 -1.27 ...
+##  $ Carduelis_carduelis          : num  -1.21 -1.2 -1.17 -1.19 -1.13 ...
+##  $ Carduelis_chloris            : num  -1.16 -1.14 -1.14 -1.11 -1.14 ...
+##  $ Carduelis_flammea            : num  0.559 0.555 0.583 0.531 0.581 ...
+##  $ Carduelis_spinus             : num  0.878 0.872 0.897 0.881 0.944 ...
+##  $ Carpodacus_erythrinus        : num  1.03 1.03 1.05 1.01 1.07 ...
+##  $ Certhia_familiaris           : num  -0.76 -0.739 -0.71 -0.729 -0.668 ...
+##  $ Coccothraustes_coccothraustes: num  -0.238 -0.233 -0.203 -0.226 -0.143 ...
+##  $ Columba_livia                : num  -0.288 -0.275 -0.285 -0.274 -0.213 ...
+##  $ Columba_oenas                : num  0.703 0.685 0.634 0.71 0.541 ...
+##  $ Columba_palumbus             : num  -2.68 -2.54 -2.5 -2.55 -2.43 ...
+##  $ Corvus_corax                 : num  -0.62 -0.621 -0.626 -0.6 -0.621 ...
+##  $ Corvus_corone                : num  -1.55 -1.49 -1.47 -1.46 -1.43 ...
+##  $ Corvus_monedula              : num  -4.06 -3.96 -4.04 -3.93 -4.03 ...
+##  $ Cuculus_canorus              : num  0.401 0.422 0.422 0.419 0.399 ...
+##  $ Cygnus_cygnus                : num  -0.802 -0.806 -0.808 -0.784 -0.839 ...
+##  $ Cygnus_olor                  : num  -4.24 -4.17 -4.27 -4.14 -4.23 ...
+##  $ Delichon_urbicum             : num  -2.74 -2.75 -2.75 -2.68 -2.76 ...
+##  $ Dendrocopos_major            : num  -0.787 -0.733 -0.741 -0.744 -0.717 ...
+##  $ Dryocopus_martius            : num  0.1009 0.0935 0.0918 0.101 0.0627 ...
+##  $ Emberiza_citrinella          : num  0.45 0.444 0.487 0.457 0.454 ...
+##  $ Emberiza_rustica             : num  0.02479 -0.00094 0.03169 -0.03192 0.04336 ...
+##  $ Emberiza_schoeniclus         : num  0.165 0.162 0.16 0.168 0.186 ...
+##  $ Erithacus_rubecula           : num  -0.1034 -0.0302 0.0281 -0.0249 0.0647 ...
+##  $ Falco_tinnunculus            : num  -0.0895 -0.1006 -0.1028 -0.0983 -0.1214 ...
+##  $ Ficedula_hypoleuca           : num  -0.568 -0.55 -0.535 -0.547 -0.487 ...
+##  $ Fringilla_coelebs            : num  0.772 0.926 0.971 0.887 1.012 ...
+##  $ Fringilla_montifringilla     : num  0.10097 -0.0159 0.09879 -0.00558 0.1912 ...
+##  $ Fulica_atra                  : num  -4.32 -4.25 -4.28 -4.21 -4.23 ...
+##  $ Gallinago_gallinago          : num  -0.211 -0.226 -0.222 -0.194 -0.221 ...
+##  $ Garrulus_glandarius          : num  -1.12 -1.05 -1.06 -1.07 -1.03 ...
+##  $ Gavia_arctica                : num  -0.15 -0.138 -0.167 -0.127 -0.177 ...
+##  $ Gavia_stellata               : num  0.093 0.0671 0.0786 0.0782 0.086 ...
+##  $ Grus_grus                    : num  -1.34 -1.31 -1.31 -1.28 -1.35 ...
+##  $ Haematopus_ostralegus        : num  0.553 0.59 0.393 0.576 0.206 ...
+##  $ Hippolais_icterina           : num  -0.452 -0.425 -0.421 -0.424 -0.393 ...
+##  $ Hirundo_rustica              : num  -2.03 -2.03 -2.05 -2 -2.05 ...
+##  $ Jynx_torquilla               : num  -0.291 -0.272 -0.299 -0.296 -0.302 ...
+##  $ Lagopus_lagopus              : num  -0.666 -0.698 -0.698 -0.698 -0.689 ...
+##  $ Lanius_collurio              : num  -0.329 -0.358 -0.364 -0.338 -0.379 ...
+##  $ Larus_argentatus             : num  -2.06 -2.03 -2.07 -1.98 -2.16 ...
+##  $ Larus_canus                  : num  -1.23 -1.19 -1.24 -1.18 -1.25 ...
+##  $ Larus_marinus                : num  -1.78 -1.76 -1.86 -1.75 -1.98 ...
+##  $ Larus_ridibundus             : num  -0.907 -0.882 -1.039 -0.864 -1.074 ...
+##  $ Loxia_curvirostra            : num  -0.477 -0.493 -0.457 -0.471 -0.497 ...
+##  $ Loxia_pytyopsittacus         : num  -1.56 -1.59 -1.63 -1.56 -1.67 ...
+##  $ Lullula_arborea              : num  1.32 1.32 1.3 1.33 1.26 ...
+##  $ Luscinia_luscinia            : num  -1.38 -1.36 -1.39 -1.33 -1.39 ...
+##  $ Luscinia_svecica             : num  0.699 0.683 0.689 0.684 0.678 ...
+##  $ Mergus_merganser             : num  -1.29 -1.28 -1.29 -1.28 -1.29 ...
+##  $ Motacilla_alba               : num  -1.41 -1.41 -1.39 -1.38 -1.41 ...
+##  $ Motacilla_flava              : num  -0.236 -0.264 -0.237 -0.269 -0.279 ...
+##  $ Muscicapa_striata            : num  0.499 0.508 0.522 0.515 0.535 ...
+##  $ Numenius_arquata             : num  1.56 1.47 1.47 1.48 1.4 ...
+##  $ Numenius_phaeopus            : num  0.03028 0.01361 0.01484 0.00903 -0.01081 ...
+##  $ Oenanthe_oenanthe            : num  0.564 0.533 0.492 0.526 0.395 ...
+##  $ Pandion_haliaetus            : num  -0.754 -0.75 -0.739 -0.735 -0.724 ...
+##  $ Parus_ater                   : num  -0.847 -0.839 -0.84 -0.814 -0.802 ...
+##  $ Parus_caeruleus              : num  -2 -1.93 -1.89 -1.91 -1.77 ...
+##  $ Parus_cristatus              : num  0.21 0.22 0.236 0.23 0.218 ...
+##  $ Parus_major                  : num  -1.83 -1.72 -1.69 -1.72 -1.6 ...
+##  $ Parus_montanus               : num  0.188 0.197 0.192 0.187 0.207 ...
+##  $ Parus_palustris              : num  -0.632 -0.617 -0.607 -0.607 -0.594 ...
+##  $ Passer_domesticus            : num  -0.28 -0.272 -0.303 -0.254 -0.298 ...
+##  $ Passer_montanus              : num  -1.65 -1.61 -1.63 -1.61 -1.62 ...
+##  $ Perisoreus_infaustus         : num  -1.77 -1.79 -1.77 -1.79 -1.76 ...
+##  $ Phalacrocorax_carbo          : num  -0.379 -0.358 -0.488 -0.316 -0.591 ...
+##  $ Phasianus_colchicus          : num  -1.095 -1.061 -1.004 -1.029 -0.964 ...
+##  $ Phoenicurus_phoenicurus      : num  -0.209 -0.26 -0.268 -0.271 -0.262 ...
+##  $ Phylloscopus_collybita       : num  0.467 0.469 0.48 0.48 0.521 ...
+##  $ Phylloscopus_sibilatrix      : num  -0.603 -0.53 -0.473 -0.531 -0.401 ...
+##  $ Phylloscopus_trochilus       : num  1.29 1.31 1.39 1.3 1.47 ...
+##  $ Pica_pica                    : num  -0.185 -0.2 -0.207 -0.165 -0.189 ...
+##  $ Picus_viridis                : num  0.0361 0.0427 0.0562 0.052 0.0947 ...
+##  $ Pluvialis_apricaria          : num  0.53 0.529 0.458 0.516 0.305 ...
+##  $ Podiceps_cristatus           : num  -3.63 -3.56 -3.52 -3.52 -3.36 ...
+##  $ Prunella_modularis           : num  0.372 0.404 0.443 0.403 0.451 ...
+##  $ Pyrrhula_pyrrhula            : num  0.452 0.435 0.449 0.434 0.447 ...
+##  $ Regulus_regulus              : num  -0.302 -0.265 -0.254 -0.258 -0.178 ...
+##  $ Saxicola_rubetra             : num  -0.0865 -0.0685 -0.0769 -0.0634 -0.1348 ...
+##  $ Scolopax_rusticola           : num  -0.127 -0.129 -0.114 -0.137 -0.102 ...
+##   [list output truncated]</code></pre>
+</div>
+<div id="lajien-kokonaislukumäärät-nykyhetkenä-ja-tulevaisuudessa" class="section level2">
+<h2>Lajien kokonaislukumäärät nykyhetkenä ja tulevaisuudessa</h2>
+<pre class="r"><code>sp_name=names(abu26)
+abus=as.data.frame(sp_name)
+abus$abupres=NA
+abus$abu26=NA
+abus$abu45=NA
+abus$abu85=NA
+
+#total population size predicted
+for(i in 1:nrow(abus)){
+  abus$abupres[i]=colSums(exp(abupres[i]))
+  abus$abu26[i]=colSums(exp(abu26[i]))
+  abus$abu45[i]=colSums(exp(abu45[i]))
+  abus$abu85[i]=colSums(exp(abu85[i]))
+}
+
+str(abus)</code></pre>
+<pre><code>## 'data.frame':    120 obs. of  5 variables:
+##  $ sp_name: Factor w/ 120 levels &quot;Acrocephalus_palustris&quot;,..: 1 2 3 4 5 6 7 8 9 10 ...
+##  $ abupres: num  10086 10360 1933 10714 2182 ...
+##  $ abu26  : num  9200 11098 2027 10893 2241 ...
+##  $ abu45  : num  9763 11101 2054 10866 2305 ...
+##  $ abu85  : num  10548 11133 2100 10834 2404 ...</code></pre>
+</div>
+<div id="lajien-kokonaislukumäärissä-ennustetut-muutokset" class="section level2">
+<h2>Lajien kokonaislukumäärissä ennustetut muutokset</h2>
+<pre class="r"><code>changes=as.data.frame(sp_name)
+changes$abu26=NA
+changes$abu45=NA
+changes$abu85=NA
+
+#changes in absolute numbers
+#for(i in 1:nrow(changes)){
+#  changes$abu26[i]=colSums(exp(abupres[i]))-colSums(exp(abu26[i]))
+#  changes$abu45[i]=colSums(exp(abupres[i]))-colSums(exp(abu45[i]))
+#  changes$abu85[i]=colSums(exp(abupres[i]))-colSums(exp(abu85[i]))
+#}
+
+#changes in percentages
+for(i in 1:nrow(changes)){
+  changes$abu26[i]=1-(colSums(exp(abupres[i]))-colSums(exp(abu26[i])))/colSums(exp(abupres[i]))
+  changes$abu45[i]=1-(colSums(exp(abupres[i]))-colSums(exp(abu45[i])))/colSums(exp(abupres[i]))
+  changes$abu85[i]=1-(colSums(exp(abupres[i]))-colSums(exp(abu85[i])))/colSums(exp(abupres[i]))
+}
+
+str(changes)</code></pre>
+<pre><code>## 'data.frame':    120 obs. of  4 variables:
+##  $ sp_name: Factor w/ 120 levels &quot;Acrocephalus_palustris&quot;,..: 1 2 3 4 5 6 7 8 9 10 ...
+##  $ abu26  : num  0.912 1.071 1.049 1.017 1.027 ...
+##  $ abu45  : num  0.968 1.072 1.063 1.014 1.057 ...
+##  $ abu85  : num  1.05 1.07 1.09 1.01 1.1 ...</code></pre>
+<pre class="r"><code>#wide to long format
+abus2=abus %&gt;% pivot_longer(c(abupres,abu26,abu45,abu85), names_to = &quot;scenario&quot;, values_to = &quot;abundance&quot;)
+
+#plot an example
+#ggplot(aes(abus2$abundance[1],abus2$scenario[1]))+
+#  geom_point()</code></pre>
 <hr />
 </div>
 </div>

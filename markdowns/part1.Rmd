@@ -14,7 +14,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ```{r}
 #packages
 getwd()
-paketit<-c("here","dplyr","purrr","tidyverse")
+paketit<-c("here","dplyr","purrr","tidyverse","tidyr")
 lapply(paketit,library,character.only=T)
 ```
 
@@ -49,21 +49,65 @@ plot(grid)
 ```
 
 ```{r}
-summary(abupres)
+str(abupres)
+```
+
+## Lajien kokonaislukumäärät nykyhetkenä ja tulevaisuudessa
+
+```{r}
+sp_name=names(abu26)
+abus=as.data.frame(sp_name)
+abus$abupres=NA
+abus$abu26=NA
+abus$abu45=NA
+abus$abu85=NA
+
+#total population size predicted
+for(i in 1:nrow(abus)){
+  abus$abupres[i]=colSums(exp(abupres[i]))
+  abus$abu26[i]=colSums(exp(abu26[i]))
+  abus$abu45[i]=colSums(exp(abu45[i]))
+  abus$abu85[i]=colSums(exp(abu85[i]))
+}
+
+str(abus)
+```
+
+## Lajien kokonaislukumäärissä ennustetut muutokset
+
+```{r}
+changes=as.data.frame(sp_name)
+changes$abu26=NA
+changes$abu45=NA
+changes$abu85=NA
+
+#changes in absolute numbers
+#for(i in 1:nrow(changes)){
+#  changes$abu26[i]=colSums(exp(abupres[i]))-colSums(exp(abu26[i]))
+#  changes$abu45[i]=colSums(exp(abupres[i]))-colSums(exp(abu45[i]))
+#  changes$abu85[i]=colSums(exp(abupres[i]))-colSums(exp(abu85[i]))
+#}
+
+#changes in percentages
+for(i in 1:nrow(changes)){
+  changes$abu26[i]=1-(colSums(exp(abupres[i]))-colSums(exp(abu26[i])))/colSums(exp(abupres[i]))
+  changes$abu45[i]=1-(colSums(exp(abupres[i]))-colSums(exp(abu45[i])))/colSums(exp(abupres[i]))
+  changes$abu85[i]=1-(colSums(exp(abupres[i]))-colSums(exp(abu85[i])))/colSums(exp(abupres[i]))
+}
+
+str(changes)
 ```
 
 ```{r}
-#changes in total abundances from present to 2055 in scenario 26
-abundances_pres=colSums(exp(abupres))
-abundances_pres
+#wide to long format
+abus2=abus %>% pivot_longer(c(abupres,abu26,abu45,abu85), names_to = "scenario", values_to = "abundance")
 
-abundances_26=colSums(exp(abu26))
-abundances_26
-
-#muutos
-abuchange26=abundances_pres-abundances_26
-abuchange26
-
-sort(abuchange26)
+#plot an example
+#ggplot(aes(abus2$abundance[1],abus2$scenario[1]))+
+#  geom_point()
 ```
+
+
+
+
 

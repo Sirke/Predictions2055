@@ -1,0 +1,702 @@
+
+paketit<-c("readr","tidyr","dplyr","plyr","magrittr","purrr","data.table","plotrix","jtools","ggplot2","lme4","car","nlme","lmerTest")
+lapply(paketit,library,character.only=T)
+
+
+#peruskorrelaatioiden laskeminen poolatuille ntype-luokitelluille aineistoille
+
+#ntype=1
+
+#luetaan aineisto
+#pa
+paY1<-read.csv("pool_obs_pa_per1_ntype1.csv",header=T,sep=",")
+paY2<-read.csv("pool_obs_pa_per2_ntype1.csv",header=T,sep=",")
+papred1<-read.csv("pool_pred_pa_per1_ntype1.csv",header=T,sep=",")
+papred2<-read.csv("pool_pred_pa_per2_ntype1.csv",header=T,sep=",")
+
+#abu
+abuY1<-read.csv("pool_obs_abu_per1_ntype1.csv",header=T,sep=",")
+abuY2<-read.csv("pool_obs_abu_per2_ntype1.csv",header=T,sep=",")
+abupred1<-read.csv("pool_pred_abu_per1_ntype1.csv",header=T,sep=",")
+abupred2<-read.csv("pool_pred_abu_per2_ntype1.csv",header=T,sep=",")
+
+#poistetaan ylim??r?iset GIS-k?sittelyss? tulleet sarakkeet
+#pudotetaan koordinaatit pois
+#pa
+drops <- c("left","top","x_mean","y_mean","right","bottom","routeid_mean","routes_Nty_mean")
+paY1<-paY1[ , !(names(paY1) %in% drops)]
+paY2<-paY2[ , !(names(paY2) %in% drops)]
+papred1<-papred1[ , !(names(papred1) %in% drops)]
+papred2<-papred2[ , !(names(papred2) %in% drops)]
+#abu
+abuY1<-abuY1[ , !(names(abuY1) %in% drops)]
+abuY2<-abuY2[ , !(names(abuY2) %in% drops)]
+abupred1<-abupred1[ , !(names(abupred1) %in% drops)]
+abupred2<-abupred2[ , !(names(abupred2) %in% drops)]
+
+
+#korjataan sarakkeiden lajinimet kunnollisiksi
+nimet<-read.csv("nimet.csv",header=T,sep=";")
+
+a<-names(nimet)
+
+names(paY1)<-a
+names(paY2)<-a
+names(papred1)<-a
+names(papred2)<-a
+
+names(abuY1)<-a
+names(abuY2)<-a
+names(abupred1)<-a
+names(abupred2)<-a
+
+#seuraavaksi lasketaan erotukset periodin 1 ja 2 v?lil?
+#pa
+#obs
+pacounts_gather<-gather(paY1,key="Yspecies",value="Yper1",Acrocephalus_palustris:Vanellus_vanellus)
+pacounts_gather2<-gather(paY2,key="Yspecies",value="Yper2",Acrocephalus_palustris:Vanellus_vanellus)
+payhd<-left_join(pacounts_gather,pacounts_gather2,by=c("grid_id"="grid_id","Yspecies"="Yspecies"))
+payhd$difY<-payhd$Yper2-payhd$Yper1
+
+#pred
+papred_gather<-gather(papred1,key="Pspecies",value="Pper1",Acrocephalus_palustris:Vanellus_vanellus)
+papred_gather2<-gather(papred2,key="Pspecies",value="Pper2",Acrocephalus_palustris:Vanellus_vanellus)
+payhdPred<-left_join(papred_gather,papred_gather2,by=c("grid_id"="grid_id","Pspecies"="Pspecies"))
+payhdPred$difPred<-payhdPred$Pper2-payhdPred$Pper1
+
+#abu
+#obs
+abucounts_gather<-gather(abuY1,key="Yspecies",value="Yper1",Acrocephalus_palustris:Vanellus_vanellus)
+abucounts_gather2<-gather(abuY2,key="Yspecies",value="Yper2",Acrocephalus_palustris:Vanellus_vanellus)
+abuyhd<-left_join(abucounts_gather,abucounts_gather2,by=c("grid_id"="grid_id","Yspecies"="Yspecies"))
+abuyhd$difY<-abuyhd$Yper2-abuyhd$Yper1
+
+#pred
+abupred_gather<-gather(abupred1,key="Pspecies",value="Pper1",Acrocephalus_palustris:Vanellus_vanellus)
+abupred_gather2<-gather(abupred2,key="Pspecies",value="Pper2",Acrocephalus_palustris:Vanellus_vanellus)
+abuyhdPred<-left_join(abupred_gather,abupred_gather2,by=c("grid_id"="grid_id","Pspecies"="Pspecies"))
+abuyhdPred$difPred<-abuyhdPred$Pper2-abuyhdPred$Pper1
+
+#seuraavaksi lasketaan korrelaatiot
+#pa
+paKor<-left_join(payhd,payhdPred,by=c("grid_id"="grid_id","Yspecies"="Pspecies"))
+keep<-c("Yspecies","difPred","difY")
+paKor<-paKor[,keep,drop=F]
+
+paKor %>%
+  group_by(Yspecies) %>%
+  dplyr::summarise(pa_change1= cor(difPred, difY, use= "na.or.complete"))%T>%
+  write.csv('pool_kor_change_pa_ntype1.csv',row.names=F)
+
+#abu
+abuKor<-left_join(abuyhd,abuyhdPred,by=c("grid_id"="grid_id","Yspecies"="Pspecies"))
+keep<-c("Yspecies","difPred","difY")
+abuKor<-abuKor[,keep,drop=F]
+
+abuKor %>%
+  group_by(Yspecies) %>%
+  dplyr::summarise(abu_change1= cor(difPred, difY, use= "na.or.complete"))%T>%
+  write.csv('pool_kor_change_abu_ntype1.csv',row.names=F)
+
+#lasketaan korralaatiot past ja present eli periodeille 1 ja 2
+#pa
+#pa_past
+paKor<-left_join(payhd,payhdPred,by=c("grid_id"="grid_id","Yspecies"="Pspecies"))
+keep<-c("Yspecies","Yper1","Pper1")
+paKor<-paKor[,keep,drop=F]
+
+paKor %>%
+  group_by(Yspecies) %>%
+  dplyr::summarise(pa_past1= cor(Yper1, Pper1, use= "na.or.complete"))%T>%
+  write.csv('pool_kor_past_pa_ntype1.csv',row.names=F)
+
+#pa_present
+paKor<-left_join(payhd,payhdPred,by=c("grid_id"="grid_id","Yspecies"="Pspecies"))
+keep<-c("Yspecies","Yper2","Pper2")
+paKor<-paKor[,keep,drop=F]
+
+paKor %>%
+  group_by(Yspecies) %>%
+  dplyr::summarise(pa_present1= cor(Yper2, Pper2, use= "na.or.complete"))%T>%
+  write.csv('pool_kor_present_pa_ntype1.csv',row.names=F)
+
+#abu
+#abu_past
+abuKor<-left_join(abuyhd,abuyhdPred,by=c("grid_id"="grid_id","Yspecies"="Pspecies"))
+keep<-c("Yspecies","Yper1","Pper1")
+abuKor<-abuKor[,keep,drop=F]
+
+abuKor %>%
+  group_by(Yspecies) %>%
+  dplyr::summarise(abu_past1= cor(Yper1, Pper1, use= "na.or.complete"))%T>%
+  write.csv('pool_kor_past_abu_ntype1.csv',row.names=F)
+
+#abu_present
+abuKor<-left_join(abuyhd,abuyhdPred,by=c("grid_id"="grid_id","Yspecies"="Pspecies"))
+keep<-c("Yspecies","Yper2","Pper2")
+abuKor<-abuKor[,keep,drop=F]
+
+abuKor %>%
+  group_by(Yspecies) %>%
+  dplyr::summarise(abu_present1= cor(Yper2, Pper2, use= "na.or.complete"))%T>%
+  write.csv('pool_kor_present_abu_ntype1.csv',row.names=F)
+
+##############################################################################################
+
+#ntype=3 aineisto
+#luetaan aineisto
+#pa
+paY1<-read.csv("pool_obs_pa_per1_ntype3.csv",header=T,sep=",")
+paY2<-read.csv("pool_obs_pa_per2_ntype3.csv",header=T,sep=",")
+papred1<-read.csv("pool_pred_pa_per1_ntype3.csv",header=T,sep=",")
+papred2<-read.csv("pool_pred_pa_per2_ntype3.csv",header=T,sep=",")
+
+#abu
+abuY1<-read.csv("pool_obs_abu_per1_ntype3.csv",header=T,sep=",")
+abuY2<-read.csv("pool_obs_abu_per2_ntype3.csv",header=T,sep=",")
+abupred1<-read.csv("pool_pred_abu_per1_ntype3.csv",header=T,sep=",")
+abupred2<-read.csv("pool_pred_abu_per2_ntype3.csv",header=T,sep=",")
+
+#poistetaan ylim??r?iset GIS-k?sittelyss? tulleet sarakkeet
+#pudotetaan koordinaatit pois
+#pa
+drops <- c("left","top","x_mean","y_mean","right","bottom","routeid_mean","routes_Nty_mean")
+paY1<-paY1[ , !(names(paY1) %in% drops)]
+paY2<-paY2[ , !(names(paY2) %in% drops)]
+papred1<-papred1[ , !(names(papred1) %in% drops)]
+papred2<-papred2[ , !(names(papred2) %in% drops)]
+#abu
+abuY1<-abuY1[ , !(names(abuY1) %in% drops)]
+abuY2<-abuY2[ , !(names(abuY2) %in% drops)]
+abupred1<-abupred1[ , !(names(abupred1) %in% drops)]
+abupred2<-abupred2[ , !(names(abupred2) %in% drops)]
+
+
+#korjataan sarakkeiden lajinimet kunnollisiksi
+nimet<-read.csv("nimet.csv",header=T,sep=";")
+
+a<-names(nimet)
+
+names(paY1)<-a
+names(paY2)<-a
+names(papred1)<-a
+names(papred2)<-a
+
+names(abuY1)<-a
+names(abuY2)<-a
+names(abupred1)<-a
+names(abupred2)<-a
+
+#seuraavaksi lasketaan erotukset periodin 1 ja 2 v?lil?
+#pa
+#obs
+pacounts_gather<-gather(paY1,key="Yspecies",value="Yper1",Acrocephalus_palustris:Vanellus_vanellus)
+pacounts_gather2<-gather(paY2,key="Yspecies",value="Yper2",Acrocephalus_palustris:Vanellus_vanellus)
+payhd<-left_join(pacounts_gather,pacounts_gather2,by=c("grid_id"="grid_id","Yspecies"="Yspecies"))
+payhd$difY<-payhd$Yper2-payhd$Yper1
+
+#pred
+papred_gather<-gather(papred1,key="Pspecies",value="Pper1",Acrocephalus_palustris:Vanellus_vanellus)
+papred_gather2<-gather(papred2,key="Pspecies",value="Pper2",Acrocephalus_palustris:Vanellus_vanellus)
+payhdPred<-left_join(papred_gather,papred_gather2,by=c("grid_id"="grid_id","Pspecies"="Pspecies"))
+payhdPred$difPred<-payhdPred$Pper2-payhdPred$Pper1
+
+#abu
+#obs
+abucounts_gather<-gather(abuY1,key="Yspecies",value="Yper1",Acrocephalus_palustris:Vanellus_vanellus)
+abucounts_gather2<-gather(abuY2,key="Yspecies",value="Yper2",Acrocephalus_palustris:Vanellus_vanellus)
+abuyhd<-left_join(abucounts_gather,abucounts_gather2,by=c("grid_id"="grid_id","Yspecies"="Yspecies"))
+abuyhd$difY<-abuyhd$Yper2-abuyhd$Yper1
+
+#pred
+abupred_gather<-gather(abupred1,key="Pspecies",value="Pper1",Acrocephalus_palustris:Vanellus_vanellus)
+abupred_gather2<-gather(abupred2,key="Pspecies",value="Pper2",Acrocephalus_palustris:Vanellus_vanellus)
+abuyhdPred<-left_join(abupred_gather,abupred_gather2,by=c("grid_id"="grid_id","Pspecies"="Pspecies"))
+abuyhdPred$difPred<-abuyhdPred$Pper2-abuyhdPred$Pper1
+
+#seuraavaksi lasketaan korrelaatiot
+#pa
+paKor<-left_join(payhd,payhdPred,by=c("grid_id"="grid_id","Yspecies"="Pspecies"))
+keep<-c("Yspecies","difPred","difY")
+paKor<-paKor[,keep,drop=F]
+
+paKor %>%
+  group_by(Yspecies) %>%
+  dplyr::summarise(pa_change3= cor(difPred, difY, use= "na.or.complete"))%T>%
+  write.csv('pool_kor_change_pa_ntype3.csv',row.names=F)
+
+#abu
+abuKor<-left_join(abuyhd,abuyhdPred,by=c("grid_id"="grid_id","Yspecies"="Pspecies"))
+keep<-c("Yspecies","difPred","difY")
+abuKor<-abuKor[,keep,drop=F]
+
+abuKor %>%
+  group_by(Yspecies) %>%
+  dplyr::summarise(abu_change3= cor(difPred, difY, use= "na.or.complete"))%T>%
+  write.csv('pool_kor_change_abu_ntype3.csv',row.names=F)
+
+#lasketaan korralaatiot past ja present eli periodeille 1 ja 2
+#pa
+#pa_past
+paKor<-left_join(payhd,payhdPred,by=c("grid_id"="grid_id","Yspecies"="Pspecies"))
+keep<-c("Yspecies","Yper1","Pper1")
+paKor<-paKor[,keep,drop=F]
+
+paKor %>%
+  group_by(Yspecies) %>%
+  dplyr::summarise(pa_past3= cor(Yper1, Pper1, use= "na.or.complete"))%T>%
+  write.csv('pool_kor_past_pa_ntype3.csv',row.names=F)
+
+#pa_present
+paKor<-left_join(payhd,payhdPred,by=c("grid_id"="grid_id","Yspecies"="Pspecies"))
+keep<-c("Yspecies","Yper2","Pper2")
+paKor<-paKor[,keep,drop=F]
+
+paKor %>%
+  group_by(Yspecies) %>%
+  dplyr::summarise(pa_present3= cor(Yper2, Pper2, use= "na.or.complete"))%T>%
+  write.csv('pool_kor_present_pa_ntype3.csv',row.names=F)
+
+#abu
+#abu_past
+abuKor<-left_join(abuyhd,abuyhdPred,by=c("grid_id"="grid_id","Yspecies"="Pspecies"))
+keep<-c("Yspecies","Yper1","Pper1")
+abuKor<-abuKor[,keep,drop=F]
+
+abuKor %>%
+  group_by(Yspecies) %>%
+  dplyr::summarise(abu_past3= cor(Yper1, Pper1, use= "na.or.complete"))%T>%
+  write.csv('pool_kor_past_abu_ntype3.csv',row.names=F)
+
+#abu_present
+abuKor<-left_join(abuyhd,abuyhdPred,by=c("grid_id"="grid_id","Yspecies"="Pspecies"))
+keep<-c("Yspecies","Yper2","Pper2")
+abuKor<-abuKor[,keep,drop=F]
+
+abuKor %>%
+  group_by(Yspecies) %>%
+  dplyr::summarise(abu_present3= cor(Yper2, Pper2, use= "na.or.complete"))%T>%
+  write.csv('pool_kor_present_abu_ntype3.csv',row.names=F)
+
+
+
+#ntype=4 aineisto
+
+#luetaan aineisto
+#pa
+paY1<-read.csv("pool_obs_pa_per1_ntype4.csv",header=T,sep=",")
+paY2<-read.csv("pool_obs_pa_per2_ntype4.csv",header=T,sep=",")
+papred1<-read.csv("pool_pred_pa_per1_ntype4.csv",header=T,sep=",")
+papred2<-read.csv("pool_pred_pa_per2_ntype4.csv",header=T,sep=",")
+
+#abu
+abuY1<-read.csv("pool_obs_abu_per1_ntype4.csv",header=T,sep=",")
+abuY2<-read.csv("pool_obs_abu_per2_ntype4.csv",header=T,sep=",")
+abupred1<-read.csv("pool_pred_abu_per1_ntype4.csv",header=T,sep=",")
+abupred2<-read.csv("pool_pred_abu_per2_ntype4.csv",header=T,sep=",")
+
+#poistetaan ylim??r?iset GIS-k?sittelyss? tulleet sarakkeet
+#pudotetaan koordinaatit pois
+#pa
+drops <- c("left","top","x_mean","y_mean","right","bottom","routeid_mean","routes_Nty_mean")
+paY1<-paY1[ , !(names(paY1) %in% drops)]
+paY2<-paY2[ , !(names(paY2) %in% drops)]
+papred1<-papred1[ , !(names(papred1) %in% drops)]
+papred2<-papred2[ , !(names(papred2) %in% drops)]
+#abu
+abuY1<-abuY1[ , !(names(abuY1) %in% drops)]
+abuY2<-abuY2[ , !(names(abuY2) %in% drops)]
+abupred1<-abupred1[ , !(names(abupred1) %in% drops)]
+abupred2<-abupred2[ , !(names(abupred2) %in% drops)]
+
+
+#korjataan sarakkeiden lajinimet kunnollisiksi
+nimet<-read.csv("nimet.csv",header=T,sep=";")
+
+a<-names(nimet)
+
+names(paY1)<-a
+names(paY2)<-a
+names(papred1)<-a
+names(papred2)<-a
+
+names(abuY1)<-a
+names(abuY2)<-a
+names(abupred1)<-a
+names(abupred2)<-a
+
+#seuraavaksi lasketaan erotukset periodin 1 ja 2 v?lil?
+#pa
+#obs
+pacounts_gather<-gather(paY1,key="Yspecies",value="Yper1",Acrocephalus_palustris:Vanellus_vanellus)
+pacounts_gather2<-gather(paY2,key="Yspecies",value="Yper2",Acrocephalus_palustris:Vanellus_vanellus)
+payhd<-left_join(pacounts_gather,pacounts_gather2,by=c("grid_id"="grid_id","Yspecies"="Yspecies"))
+payhd$difY<-payhd$Yper2-payhd$Yper1
+
+#pred
+papred_gather<-gather(papred1,key="Pspecies",value="Pper1",Acrocephalus_palustris:Vanellus_vanellus)
+papred_gather2<-gather(papred2,key="Pspecies",value="Pper2",Acrocephalus_palustris:Vanellus_vanellus)
+payhdPred<-left_join(papred_gather,papred_gather2,by=c("grid_id"="grid_id","Pspecies"="Pspecies"))
+payhdPred$difPred<-payhdPred$Pper2-payhdPred$Pper1
+
+#abu
+#obs
+abucounts_gather<-gather(abuY1,key="Yspecies",value="Yper1",Acrocephalus_palustris:Vanellus_vanellus)
+abucounts_gather2<-gather(abuY2,key="Yspecies",value="Yper2",Acrocephalus_palustris:Vanellus_vanellus)
+abuyhd<-left_join(abucounts_gather,abucounts_gather2,by=c("grid_id"="grid_id","Yspecies"="Yspecies"))
+abuyhd$difY<-abuyhd$Yper2-abuyhd$Yper1
+
+#pred
+abupred_gather<-gather(abupred1,key="Pspecies",value="Pper1",Acrocephalus_palustris:Vanellus_vanellus)
+abupred_gather2<-gather(abupred2,key="Pspecies",value="Pper2",Acrocephalus_palustris:Vanellus_vanellus)
+abuyhdPred<-left_join(abupred_gather,abupred_gather2,by=c("grid_id"="grid_id","Pspecies"="Pspecies"))
+abuyhdPred$difPred<-abuyhdPred$Pper2-abuyhdPred$Pper1
+
+#seuraavaksi lasketaan korrelaatiot
+#pa
+paKor<-left_join(payhd,payhdPred,by=c("grid_id"="grid_id","Yspecies"="Pspecies"))
+keep<-c("Yspecies","difPred","difY")
+paKor<-paKor[,keep,drop=F]
+
+paKor %>%
+  group_by(Yspecies) %>%
+  dplyr::summarise(pa_change4= cor(difPred, difY, use= "na.or.complete"))%T>%
+  write.csv('pool_kor_change_pa_ntype4.csv',row.names=F)
+
+#abu
+abuKor<-left_join(abuyhd,abuyhdPred,by=c("grid_id"="grid_id","Yspecies"="Pspecies"))
+keep<-c("Yspecies","difPred","difY")
+abuKor<-abuKor[,keep,drop=F]
+
+abuKor %>%
+  group_by(Yspecies) %>%
+  dplyr::summarise(abu_change4= cor(difPred, difY, use= "na.or.complete"))%T>%
+  write.csv('pool_kor_change_abu_ntype4.csv',row.names=F)
+
+#lasketaan korralaatiot past ja present eli periodeille 1 ja 2
+#pa
+#pa_past
+paKor<-left_join(payhd,payhdPred,by=c("grid_id"="grid_id","Yspecies"="Pspecies"))
+keep<-c("Yspecies","Yper1","Pper1")
+paKor<-paKor[,keep,drop=F]
+
+paKor %>%
+  group_by(Yspecies) %>%
+  dplyr::summarise(pa_past4= cor(Yper1, Pper1, use= "na.or.complete"))%T>%
+  write.csv('pool_kor_past_pa_ntype4.csv',row.names=F)
+
+#pa_present
+paKor<-left_join(payhd,payhdPred,by=c("grid_id"="grid_id","Yspecies"="Pspecies"))
+keep<-c("Yspecies","Yper2","Pper2")
+paKor<-paKor[,keep,drop=F]
+
+paKor %>%
+  group_by(Yspecies) %>%
+  dplyr::summarise(pa_present4= cor(Yper2, Pper2, use= "na.or.complete"))%T>%
+  write.csv('pool_kor_present_pa_ntype4.csv',row.names=F)
+
+#abu
+#abu_past
+abuKor<-left_join(abuyhd,abuyhdPred,by=c("grid_id"="grid_id","Yspecies"="Pspecies"))
+keep<-c("Yspecies","Yper1","Pper1")
+abuKor<-abuKor[,keep,drop=F]
+
+abuKor %>%
+  group_by(Yspecies) %>%
+  dplyr::summarise(abu_past4= cor(Yper1, Pper1, use= "na.or.complete"))%T>%
+  write.csv('pool_kor_past_abu_ntype4.csv',row.names=F)
+
+#abu_present
+abuKor<-left_join(abuyhd,abuyhdPred,by=c("grid_id"="grid_id","Yspecies"="Pspecies"))
+keep<-c("Yspecies","Yper2","Pper2")
+abuKor<-abuKor[,keep,drop=F]
+
+abuKor %>%
+  group_by(Yspecies) %>%
+  dplyr::summarise(abu_present4= cor(Yper2, Pper2, use= "na.or.complete"))%T>%
+  write.csv('pool_kor_present_abu_ntype4.csv',row.names=F)
+
+
+
+#tehd??n kaikista 9 korrelaatioista taulukko
+
+#pa-aineisto
+a<-read.csv("pool_kor_past_pa_ntype1.csv")
+b<-read.csv("pool_kor_past_pa_ntype3.csv")
+c<-read.csv("pool_kor_past_pa_ntype4.csv")
+
+d<-read.csv("pool_kor_present_pa_ntype1.csv")
+e<-read.csv("pool_kor_present_pa_ntype3.csv")
+f<-read.csv("pool_kor_present_pa_ntype4.csv")
+
+g<-read.csv("pool_kor_change_pa_ntype1.csv")
+h<-read.csv("pool_kor_change_pa_ntype3.csv")
+i<-read.csv("pool_kor_change_pa_ntype4.csv")
+
+#yhdistet??n kaikki datat yhteen
+pool_ntype_pa<-list(a,b,c,d,e,f,g,h,i) %>% reduce(left_join, by = "Yspecies")
+
+#poistetaan 4 lajia, joilla aineistoa oli niin v?h?n ettei niiden tilastollinen testaaminen ole j?rkev??
+pois<-c("Calidris_maritima","Carduelis_hornemanni","Falco_rusticolus","Limosa_lapponica")
+pool_ntype_pa<-pool_ntype_pa %>% filter(! Yspecies%in% pois)
+setnames(pool_ntype_pa,"Yspecies","species")
+
+#tallennetaan huvin vuoksi
+write.csv(pool_ntype_pa,"pool_ntype_pa.csv")
+
+
+#abu-aineiston taulukko
+a<-read.csv("pool_kor_past_abu_ntype1.csv")
+b<-read.csv("pool_kor_past_abu_ntype3.csv")
+c<-read.csv("pool_kor_past_abu_ntype4.csv")
+
+d<-read.csv("pool_kor_present_abu_ntype1.csv")
+e<-read.csv("pool_kor_present_abu_ntype3.csv")
+f<-read.csv("pool_kor_present_abu_ntype4.csv")
+
+g<-read.csv("pool_kor_change_abu_ntype1.csv")
+h<-read.csv("pool_kor_change_abu_ntype3.csv")
+i<-read.csv("pool_kor_change_abu_ntype4.csv")
+
+#yhdistet??n kaikki datat yhteen
+pool_ntype_abu<-list(a,b,c,d,e,f,g,h,i) %>% reduce(left_join, by = "Yspecies")
+
+#poistetaan 4 lajia, joilla aineistoa oli niin v?h?n ettei niiden tilastollinen testaaminen ole j?rkev??
+pois<-c("Calidris_maritima","Carduelis_hornemanni","Falco_rusticolus","Limosa_lapponica")
+pool_ntype_abu<-pool_ntype_abu %>% filter(! Yspecies%in% pois)
+setnames(pool_ntype_abu,"Yspecies","species")
+
+#tallennetaan huvin vuoksi
+write.csv(pool_ntype_abu,"pool_ntype_abu.csv")
+
+
+#seuraavaksi tehd??n samat tilastolliset testit kuin poolaamattomallekin aineistolle
+
+#luetaan kummatkin aineistot sis??n
+#Huom! kyseess? on poolatut arvot vaikka en muutakaan muuttujan nime? "pool_" -alkuiseksi.
+ntype_pa<-read.csv("pool_ntype_pa.csv")
+ntype_abu<-read.csv("pool_ntype_abu.csv")
+
+#pa-aineisto
+pa_past<-as.vector(as.matrix(ntype_pa[,c("pa_past1","pa_past3","pa_past4")]))
+species<-gl(127,1,381)
+ntype<-gl(3,127,381,labels = c(1,3,4))
+pa_pastit<-data.frame(species,ntype,pa_past)
+
+#vertaillaan eri Ntype luokkia anovalla
+summary(pa_pastit)
+head(pa_pastit)
+
+#lasketaan periodi1 korrelaatioiden keskiarvot Ntype 1, 3 ja 4:lle
+mean(ntype_pa$pa_past1,na.rm=TRUE)
+mean(ntype_pa$pa_past3,na.rm=TRUE)
+mean(ntype_pa$pa_past4,na.rm=TRUE)
+
+#se:t
+std.error(ntype_pa$pa_past1,na.rm=TRUE)
+std.error(ntype_pa$pa_past3,na.rm=TRUE)
+std.error(ntype_pa$pa_past4,na.rm=TRUE)
+
+#kuvaaja
+ggplot(pa_pastit, aes(x=ntype, y=pa_past))+geom_boxplot(notch=T)
+
+#mallit, joissa species on random muuttuja, n?ist? vertailu
+M1<-lmer(pa_past~1+(1|species),data=pa_pastit,REML=FALSE) #t?h?n REML=FALSE, jotta voidaan vertailla malleja likelihood ratio testill?
+M2<-lmer(pa_past~ntype+(1|species),data=pa_pastit,REML=FALSE)
+M3<-lmer(pa_past~ntype+(1+ntype|species),data=pa_pastit,REML=FALSE) #ei toimi
+
+anova(M1,M2)
+summary(M2)
+anova(M2)
+Anova(M2)
+
+#presentit
+pa_pres<-as.vector(as.matrix(ntype_pa[,c("pa_present1","pa_present3","pa_present4")]))
+species<-gl(127,1,381)
+ntype<-gl(3,127,381,labels = c(1,3,4))
+pa_presit<-data.frame(species,ntype,pa_pres)
+
+#vertaillaan eri Ntype luokkia anovalla
+summary(pa_presit)
+
+#lasketaan periodi2 korrelaatioiden keskiarvot Ntype 1, 3 ja 4:lle
+mean(ntype_pa$pa_present1,na.rm=TRUE)
+mean(ntype_pa$pa_present3,na.rm=TRUE)
+mean(ntype_pa$pa_present4,na.rm=TRUE)
+
+#se:t
+std.error(ntype_pa$pa_present1,na.rm=TRUE)
+std.error(ntype_pa$pa_present3,na.rm=TRUE)
+std.error(ntype_pa$pa_present4,na.rm=TRUE)
+
+#kuvaaja
+ggplot(pa_presit, aes(x=ntype, y=pa_pres))+geom_boxplot(notch=T)
+
+#kokeilu
+M1<-lmer(pa_pres~1+(1|species),data=pa_presit,REML=FALSE) #t?h?n REML=FALSE, jotta voidaan vertailla malleja likelihood ratio testill?
+M2<-lmer(pa_pres~ntype+(1|species),data=pa_presit,REML=FALSE)
+M3<-lmer(pa_pres~ntype+(1+ntype|species),data=pa_presit,REML=FALSE)
+
+anova(M1,M2)
+summary(M2)
+anova(M2)
+Anova(M2)
+
+#changet
+pa_chan<-as.vector(as.matrix(ntype_pa[,c("pa_change1","pa_change3","pa_change4")]))
+species<-gl(127,1,381)
+ntype<-gl(3,127,381,labels = c(1,3,4))
+pa_chanit<-data.frame(species,ntype,pa_chan)
+
+#vertaillaan eri Ntype luokkia anovalla
+summary(pa_chanit)
+
+#lasketaan periodi2 korrelaatioiden keskiarvot Ntype 1, 3 ja 4:lle
+mean(ntype_pa$pa_change1,na.rm=TRUE)
+mean(ntype_pa$pa_change3,na.rm=TRUE)
+mean(ntype_pa$pa_change4,na.rm=TRUE)
+
+#se:t
+std.error(ntype_pa$pa_change1,na.rm=TRUE)
+std.error(ntype_pa$pa_change3,na.rm=TRUE)
+std.error(ntype_pa$pa_change4,na.rm=TRUE)
+
+#kuvaaja
+ggplot(pa_chanit, aes(x=ntype, y=pa_chan))+geom_boxplot(notch=T)
+
+#mallit, joissa species on random muuttuja, n?ist? vertailu
+M1<-lmer(pa_chan~1+(1|species),data=pa_chanit,REML=FALSE) #t?h?n REML=FALSE, jotta voidaan vertailla malleja likelihood ratio testill?
+M2<-lmer(pa_chan~ntype+(1|species),data=pa_chanit,REML=FALSE)
+M3<-lmer(pa_chan~ntype+(1+ntype|species),data=pa_chanit,REML=FALSE) #ei toimi
+
+anova(M1,M2)
+summary(M2)
+anova(M2)
+Anova(M2)
+
+#tai lme funktiolla
+M2<-lme(pa_chan~ntype, random=~1|species,data=pa_chanit,na.action=na.omit)
+anova(M2)
+
+Betas<-fixef(M2)
+SE<-sqrt(diag(vcov(M2)))
+pval<-2*pnorm(-abs(Betas/SE))  
+Output<-cbind(Betas,SE,pval)
+print(Output, digits=3)
+
+  
+#abu-aineisto
+abu_past<-as.vector(as.matrix(ntype_abu[,c("abu_past1","abu_past3","abu_past4")]))
+species<-gl(127,1,381)
+ntype<-gl(3,127,381,labels = c(1,3,4))
+abu_pastit<-data.frame(species,ntype,abu_past)
+
+#vertaillaan eri Ntype luokkia anovalla
+summary(abu_pastit)
+
+#lasketaan periodi1 korrelaatioiden keskiarvot Ntype 1, 3 ja 4:lle
+mean(ntype_abu$abu_past1,na.rm=TRUE)
+mean(ntype_abu$abu_past3,na.rm=TRUE)
+mean(ntype_abu$abu_past4,na.rm=TRUE)
+
+#se:t
+std.error(ntype_abu$abu_past1,na.rm=TRUE)
+std.error(ntype_abu$abu_past3,na.rm=TRUE)
+std.error(ntype_abu$abu_past4,na.rm=TRUE)
+
+#kuvaaja
+ggplot(abu_pastit, aes(x=ntype, y=abu_past))+geom_boxplot(notch=T)
+
+#malli, jossa species on random muuttuja, n?ist? vertailu
+M1<-lmer(abu_past~1+(1|species),data=abu_pastit,REML=FALSE) #t?h?n REML=FALSE, jotta voidaan vertailla malleja likelihood ratio testill?
+M2<-lmer(abu_past~ntype+(1|species),data=abu_pastit,REML=FALSE)
+M3<-lmer(abu_past~ntype+(1+ntype|species),data=abu_pastit,REML=FALSE) #ei toimi
+
+anova(M1,M2)
+summary(M2)
+Anova(M2)
+
+#tai lme-funktiolla
+M4<-lme(abu_past~ntype, random=~1|species,data=abu_pastit,na.action=na.omit) 
+summary(M4)
+anova(M4)
+
+
+
+#presentit
+abu_pres<-as.vector(as.matrix(ntype_abu[,c("abu_present1","abu_present3","abu_present4")]))
+species<-gl(127,1,381)
+ntype<-gl(3,127,381,labels = c(1,3,4))
+abu_presit<-data.frame(species,ntype,abu_pres)
+
+#vertaillaan eri Ntype luokkia anovalla
+summary(abu_presit)
+
+#lasketaan periodi2 korrelaatioiden keskiarvot Ntype 1, 3 ja 4:lle
+mean(ntype_abu$abu_present1,na.rm=TRUE)
+mean(ntype_abu$abu_present3,na.rm=TRUE)
+mean(ntype_abu$abu_present4,na.rm=TRUE)
+
+#se:t
+std.error(ntype_abu$abu_present1,na.rm=TRUE)
+std.error(ntype_abu$abu_present3,na.rm=TRUE)
+std.error(ntype_abu$abu_present4,na.rm=TRUE)
+
+#kuvaaja
+ggplot(abu_presit, aes(x=ntype, y=abu_pres))+geom_boxplot(notch=T)
+
+#malli, jossa species on random muuttuja, n?ist? vertailu
+M1<-lmer(abu_pres~1+(1|species),data=abu_presit,REML=FALSE) #t?h?n REML=FALSE, jotta voidaan vertailla malleja likelihood ratio testill?
+M2<-lmer(abu_pres~ntype+(1|species),data=abu_presit,REML=FALSE)
+M3<-lmer(abu_pres~ntype+(1+ntype|species),data=abu_presit,REML=FALSE) #ei toimi
+
+anova(M1,M2)
+summary(M2)
+Anova(M2)
+
+#tai lme-funktiolla
+M4<-lme(abu_past~ntype, random=~1|species,data=abu_pastit,na.action=na.omit) 
+summary(M4)
+anova(M4)
+
+#changet
+abu_chan<-as.vector(as.matrix(ntype_abu[,c("abu_change1","abu_change3","abu_change4")]))
+species<-gl(127,1,381)
+ntype<-gl(3,127,381,labels = c(1,3,4))
+abu_chanit<-data.frame(species,ntype,abu_chan)
+
+#vertaillaan eri Ntype luokkia anovalla
+summary(abu_chanit)
+
+#lasketaan periodi2 korrelaatioiden keskiarvot Ntype 1, 3 ja 4:lle
+mean(ntype_abu$abu_change1,na.rm=TRUE)
+mean(ntype_abu$abu_change3,na.rm=TRUE)
+mean(ntype_abu$abu_change4,na.rm=TRUE)
+
+#se:t
+std.error(ntype_abu$abu_change1,na.rm=TRUE)
+std.error(ntype_abu$abu_change3,na.rm=TRUE)
+std.error(ntype_abu$abu_change4,na.rm=TRUE)
+
+#kuvaaja
+ggplot(abu_chanit, aes(x=ntype, y=abu_chan))+geom_boxplot(notch=T)
+
+#malli, jossa species on random muuttuja, n?ist? vertailu
+M1<-lmer(abu_chan~1+(1|species),data=abu_chanit,REML=FALSE) #t?h?n REML=FALSE, jotta voidaan vertailla malleja likelihood ratio testill?
+M2<-lmer(abu_chan~ntype+(1|species),data=abu_chanit,REML=FALSE)
+M3<-lmer(abu_chan~ntype+(1+ntype|species),data=abu_chanit,REML=FALSE) #ei toimi
+
+anova(M1,M2)
+summary(M2)
+Anova(M2)
+
+#tai lme-funktiolla
+M4<-lme(abu_chan~ntype, random=~1|species,data=abu_chanit,na.action=na.omit) 
+summary(M4)
+anova(M4)
+
+Betas<-fixef(M2)
+SE<-sqrt(diag(vcov(M2)))
+pval<-2*pnorm(-abs(Betas/SE))  
+Output<-cbind(Betas,SE,pval)
+print(Output, digits=3)

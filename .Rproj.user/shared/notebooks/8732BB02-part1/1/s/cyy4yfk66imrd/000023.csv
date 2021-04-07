@@ -1,0 +1,7 @@
+"0","#plot an example
+ggplot(aes(abus2$abundance[1],abus2$scenario[1]))+
+  geom_point()
+"
+"2","Error: `data` must be a data frame, or other object coercible by `fortify()`, not an S3 object with class uneval
+Did you accidentally pass `aes()` to the `data` argument?
+"
