@@ -1,0 +1,146 @@
+---
+title: "Changes"
+author: "Sirke"
+date: "1 huhtikuuta 2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Muutokset
+
+```{r}
+#packages
+getwd()
+paketit<-c("here","dplyr","purrr","tidyverse","tidyr")
+lapply(paketit,library,character.only=T)
+```
+
+## Aineiston yhdistely
+
+Load data
+
+```{r}
+here::here()
+abupres <- read.csv(here("data", "EPREDY_abu_pres.csv"))
+abu26 <- read.csv(here("data", "EPREDY_abu_26.csv"))
+abu45<- read.csv(here("data", "EPREDY_abu_45.csv"))
+abu85<- read.csv(here("data", "EPREDY_abu_85.csv"))
+papres<- read.csv(here("data", "EPREDY_pa_pres.csv"))
+pa26<- read.csv(here("data", "EPREDY_pa_26.csv"))
+pa45 <- read.csv(here("data", "EPREDY_pa_45.csv"))
+pa85 <- read.csv(here("data", "EPREDY_pa_85.csv"))
+grid <- read.csv(here("data", "XY.grid10_abu_85.csv"))
+
+#jos haluaisin yhdistää kaikki csv:t yhteen dataframeen
+#filefolder <- here("data")
+#files <- dir(filefolder, pattern = "*.csv",full.names = T)
+#files
+#data <- files %>%
+#  map(read_csv) %>% 
+#  reduce(cbind)
+```
+
+
+```{r}
+plot(grid)
+```
+
+```{r}
+str(abupres)
+```
+
+## Lajien kokonaislukumäärät nykyhetkenä ja tulevaisuudessa
+
+```{r}
+sp_name=names(abu26)
+abus=as.data.frame(sp_name)
+abus$abupres=NA
+abus$abu26=NA
+abus$abu45=NA
+abus$abu85=NA
+
+#total population size predicted
+for(i in 1:nrow(abus)){
+  abus$abupres[i]=colSums(exp(abupres[i]))
+  abus$abu26[i]=colSums(exp(abu26[i]))
+  abus$abu45[i]=colSums(exp(abu45[i]))
+  abus$abu85[i]=colSums(exp(abu85[i]))
+}
+
+str(abus)
+```
+
+## Lajien kokonaislukumäärissä ennustetut muutokset
+
+```{r}
+changes=as.data.frame(sp_name)
+changes$abu26=NA
+changes$abu45=NA
+changes$abu85=NA
+
+#changes in absolute numbers
+#for(i in 1:nrow(changes)){
+#  changes$abu26[i]=colSums(exp(abupres[i]))-colSums(exp(abu26[i]))
+#  changes$abu45[i]=colSums(exp(abupres[i]))-colSums(exp(abu45[i]))
+#  changes$abu85[i]=colSums(exp(abupres[i]))-colSums(exp(abu85[i]))
+#}
+
+#changes in proportions
+for(i in 1:nrow(changes)){
+  changes$abu26[i]=1-(colSums(exp(abupres[i]))-colSums(exp(abu26[i])))/colSums(exp(abupres[i]))
+  changes$abu45[i]=1-(colSums(exp(abupres[i]))-colSums(exp(abu45[i])))/colSums(exp(abupres[i]))
+  changes$abu85[i]=1-(colSums(exp(abupres[i]))-colSums(exp(abu85[i])))/colSums(exp(abupres[i]))
+}
+
+glimpse(changes)
+```
+
+```{r}
+colMeans(changes[2:4])
+mean(colMeans(changes[2:4]))
+```
+
+Keskimääräin lajit runsastuivat jokaisella skenaariolla.
+
+### 5 eniten runsastunutta lajia jokaisella skenaariolla:
+
+```{r}
+changes[order(-changes$abu26)[1:5],c(1,2)]
+changes[order(-changes$abu45)[1:5],c(1,3)]
+changes[order(-changes$abu85)[1:5],c(1,4)]
+```
+
+### 5 eniten vähentynyttä lajia eri skenaarioilla:
+
+```{r}
+changes[order(changes$abu26)[1:5],1:2]
+changes[order(changes$abu45)[1:5],c(1,3)]
+changes[order(changes$abu85)[1:5],c(1,4)]
+```
+
+Huomaa, että esimerkiksi järripeippo on skenaariolla 26 hyvinkin runsastuva laji, mutta skenaariolla 85 eniten vähenevä laji. 
+
+
+### kuvaaja
+
+```{r}
+#wide to long format
+abus2=abus %>% pivot_longer(c(abupres,abu26,abu45,abu85), names_to = "scenario", values_to = "abundance")
+#add a year variable?
+year=rep(c(2016,2055,2055,2055),times=120)
+abus2=cbind(abus2,year)
+
+#plot an example
+ggplot(subset(abus2, sp_name %in% "Acrocephalus_palustris"), aes(year, abundance, col =scenario )) +         
+  geom_line()
+  
+
+```
+
+
+
+
+

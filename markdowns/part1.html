@@ -189,7 +189,7 @@ summary {
 <pre class="r"><code>#packages
 getwd()</code></pre>
 <pre><code>## [1] &quot;C:/Users/Sirke Piirainen/OneDrive - University of Helsinki/github_mallinnus/Predictions2055/markdowns&quot;</code></pre>
-<pre class="r"><code>paketit&lt;-c(&quot;here&quot;,&quot;dplyr&quot;,&quot;purrr&quot;,&quot;tidyverse&quot;)
+<pre class="r"><code>paketit&lt;-c(&quot;here&quot;,&quot;dplyr&quot;,&quot;purrr&quot;,&quot;tidyverse&quot;,&quot;tidyr&quot;)
 lapply(paketit,library,character.only=T)</code></pre>
 <pre><code>## Warning: package 'here' was built under R version 3.6.3</code></pre>
 <pre><code>## here() starts at C:/Users/Sirke Piirainen/OneDrive - University of Helsinki/github_mallinnus/Predictions2055</code></pre>
@@ -202,11 +202,11 @@ lapply(paketit,library,character.only=T)</code></pre>
 ## 
 ##     intersect, setdiff, setequal, union</code></pre>
 <pre><code>## Warning: package 'purrr' was built under R version 3.6.3</code></pre>
-<pre><code>## -- Attaching packages ------------------------------------------------------- tidyverse 1.3.0 --</code></pre>
+<pre><code>## -- Attaching packages ----------------------------------------------------------------------------- tidyverse 1.3.0 --</code></pre>
 <pre><code>## v ggplot2 3.2.1     v readr   1.3.1
 ## v tibble  2.1.3     v stringr 1.4.0
 ## v tidyr   1.0.0     v forcats 0.4.0</code></pre>
-<pre><code>## -- Conflicts ---------------------------------------------------------- tidyverse_conflicts() --
+<pre><code>## -- Conflicts -------------------------------------------------------------------------------- tidyverse_conflicts() --
 ## x dplyr::filter() masks stats::filter()
 ## x dplyr::lag()    masks stats::lag()</code></pre>
 <pre><code>## [[1]]
@@ -222,6 +222,12 @@ lapply(paketit,library,character.only=T)</code></pre>
 ##  [6] &quot;grDevices&quot; &quot;utils&quot;     &quot;datasets&quot;  &quot;methods&quot;   &quot;base&quot;     
 ## 
 ## [[4]]
+##  [1] &quot;forcats&quot;   &quot;stringr&quot;   &quot;readr&quot;     &quot;tidyr&quot;     &quot;tibble&quot;   
+##  [6] &quot;ggplot2&quot;   &quot;tidyverse&quot; &quot;purrr&quot;     &quot;dplyr&quot;     &quot;here&quot;     
+## [11] &quot;stats&quot;     &quot;graphics&quot;  &quot;grDevices&quot; &quot;utils&quot;     &quot;datasets&quot; 
+## [16] &quot;methods&quot;   &quot;base&quot;     
+## 
+## [[5]]
 ##  [1] &quot;forcats&quot;   &quot;stringr&quot;   &quot;readr&quot;     &quot;tidyr&quot;     &quot;tibble&quot;   
 ##  [6] &quot;ggplot2&quot;   &quot;tidyverse&quot; &quot;purrr&quot;     &quot;dplyr&quot;     &quot;here&quot;     
 ## [11] &quot;stats&quot;     &quot;graphics&quot;  &quot;grDevices&quot; &quot;utils&quot;     &quot;datasets&quot; 
@@ -250,748 +256,232 @@ grid &lt;- read.csv(here(&quot;data&quot;, &quot;XY.grid10_abu_85.csv&quot;))
 #  reduce(cbind)</code></pre>
 <pre class="r"><code>plot(grid)</code></pre>
 <p><img src="data:image/png;base64,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" width="672" /></p>
-<pre class="r"><code>summary(abupres)</code></pre>
-<pre><code>##  Acrocephalus_palustris Acrocephalus_schoenobaenus Acrocephalus_scirpaceus
-##  Min.   :-1.5726        Min.   :-0.85617           Min.   :-2.4065        
-##  1st Qu.:-0.5571        1st Qu.:-0.29626           1st Qu.:-2.1235        
-##  Median :-0.2787        Median :-0.16791           Median :-1.9935        
-##  Mean   :-0.2683        Mean   :-0.16797           Mean   :-1.8920        
-##  3rd Qu.: 0.0736        3rd Qu.:-0.02021           3rd Qu.:-1.7691        
-##  Max.   : 1.1100        Max.   : 0.84354           Max.   :-0.1269        
-##  Actitis_hypoleucos Aegithalos_caudatus Alauda_arvensis  
-##  Min.   :-0.40417   Min.   :-2.4383     Min.   :-0.8300  
-##  1st Qu.:-0.21605   1st Qu.:-1.8440     1st Qu.:-0.4036  
-##  Median :-0.15596   Median :-1.7043     Median :-0.2093  
-##  Mean   :-0.11699   Mean   :-1.7235     Mean   :-0.1031  
-##  3rd Qu.:-0.06899   3rd Qu.:-1.5659     3rd Qu.: 0.0313  
-##  Max.   : 0.66190   Max.   :-0.8011     Max.   : 2.4747  
-##   Anas_crecca      Anas_platyrhynchos  Anser_anser     Anthus_pratensis  
-##  Min.   :-1.7910   Min.   :-2.8832    Min.   :-3.438   Min.   :-1.67971  
-##  1st Qu.:-1.3814   1st Qu.:-1.9195    1st Qu.:-1.968   1st Qu.:-0.98788  
-##  Median :-1.3122   Median :-1.6875    Median :-1.623   Median :-0.67224  
-##  Mean   :-1.2433   Mean   :-1.6127    Mean   :-1.562   Mean   :-0.43735  
-##  3rd Qu.:-1.2252   3rd Qu.:-1.4028    3rd Qu.:-1.180   3rd Qu.:-0.01824  
-##  Max.   : 0.2805   Max.   : 0.8104    Max.   : 1.178   Max.   : 1.65891  
-##  Anthus_trivialis   Apus_apus        Ardea_cinerea     Aythya_fuligula  
-##  Min.   :-1.045   Min.   :-2.78190   Min.   :-0.9588   Min.   :-1.0030  
-##  1st Qu.: 0.899   1st Qu.:-2.14127   1st Qu.:-0.5113   1st Qu.:-0.6189  
-##  Median : 1.140   Median :-1.95042   Median :-0.4219   Median :-0.5242  
-##  Mean   : 1.066   Mean   :-1.81916   Mean   :-0.3620   Mean   :-0.4262  
-##  3rd Qu.: 1.357   3rd Qu.:-1.62785   3rd Qu.:-0.2794   3rd Qu.:-0.3881  
-##  Max.   : 1.813   Max.   : 0.01249   Max.   : 0.7879   Max.   : 1.6710  
-##  Bonasa_bonasia     Branta_canadensis Bucephala_clangula  Buteo_buteo     
-##  Min.   :-0.34096   Min.   :-2.8753   Min.   :-1.8131    Min.   :-0.8061  
-##  1st Qu.:-0.09131   1st Qu.:-1.8824   1st Qu.:-1.3983    1st Qu.:-0.2377  
-##  Median :-0.01343   Median :-1.6078   Median :-1.3021    Median :-0.1800  
-##  Mean   :-0.04357   Mean   :-1.5508   Mean   :-1.2327    Mean   :-0.1673  
-##  3rd Qu.: 0.02232   3rd Qu.:-1.3093   3rd Qu.:-1.1635    3rd Qu.:-0.1001  
-##  Max.   : 0.13533   Max.   : 0.7351   Max.   : 0.5135    Max.   : 0.4862  
-##  Carduelis_cannabina Carduelis_carduelis Carduelis_chloris
-##  Min.   :-3.3235     Min.   :-1.2313     Min.   :-1.2298  
-##  1st Qu.:-2.7523     1st Qu.:-0.9503     1st Qu.:-0.8814  
-##  Median :-2.5208     Median :-0.8754     Median :-0.7769  
-##  Mean   :-2.2079     Mean   :-0.8665     Mean   :-0.6620  
-##  3rd Qu.:-1.6741     3rd Qu.:-0.7821     3rd Qu.:-0.5515  
-##  Max.   : 0.3036     Max.   :-0.3743     Max.   : 0.8240  
-##  Carduelis_flammea  Carduelis_spinus  Carpodacus_erythrinus
-##  Min.   :-0.94016   Min.   :0.05257   Min.   :0.1930       
-##  1st Qu.:-0.06243   1st Qu.:0.77911   1st Qu.:0.4889       
-##  Median : 0.12494   Median :0.99786   Median :0.6126       
-##  Mean   : 0.10754   Mean   :0.95631   Mean   :0.6362       
-##  3rd Qu.: 0.30038   3rd Qu.:1.17045   3rd Qu.:0.7943       
-##  Max.   : 0.81525   Max.   :1.59525   Max.   :1.1283       
-##  Certhia_familiaris Coccothraustes_coccothraustes Columba_livia     
-##  Min.   :-0.76008   Min.   :-0.29106              Min.   :-0.53234  
-##  1st Qu.:-0.05255   1st Qu.:-0.04567              1st Qu.:-0.08973  
-##  Median : 0.12747   Median : 0.01048              Median : 0.00608  
-##  Mean   : 0.07383   Mean   : 0.02038              Mean   : 0.02132  
-##  3rd Qu.: 0.27625   3rd Qu.: 0.08978              3rd Qu.: 0.12504  
-##  Max.   : 0.58796   Max.   : 0.48220              Max.   : 0.66821  
-##  Columba_oenas     Columba_palumbus   Corvus_corax      Corvus_corone    
-##  Min.   :-0.9665   Min.   :-2.7450   Min.   :-0.64873   Min.   :-1.5536  
-##  1st Qu.:-0.5846   1st Qu.:-0.7765   1st Qu.:-0.47784   1st Qu.:-0.9164  
-##  Median :-0.4725   Median :-0.2926   Median :-0.42984   Median :-0.7325  
-##  Mean   :-0.2241   Mean   :-0.3141   Mean   :-0.41950   Mean   :-0.5697  
-##  3rd Qu.: 0.1633   3rd Qu.: 0.2993   3rd Qu.:-0.35743   3rd Qu.:-0.3121  
-##  Max.   : 1.3340   Max.   : 1.8854   Max.   :-0.04467   Max.   : 1.4030  
-##  Corvus_monedula    Cuculus_canorus    Cygnus_cygnus      Cygnus_olor    
-##  Min.   :-4.06266   Min.   :-0.08707   Min.   :-1.1535   Min.   :-4.271  
-##  1st Qu.:-3.05104   1st Qu.: 0.44373   1st Qu.:-0.8655   1st Qu.:-3.383  
-##  Median :-2.73229   Median : 0.51759   Median :-0.8043   Median :-3.064  
-##  Mean   :-2.62632   Mean   : 0.50270   Mean   :-0.7723   Mean   :-2.904  
-##  3rd Qu.:-2.27368   3rd Qu.: 0.57933   3rd Qu.:-0.7115   3rd Qu.:-2.641  
-##  Max.   :-0.08517   Max.   : 0.88045   Max.   :-0.1679   Max.   : 0.645  
-##  Delichon_urbicum  Dendrocopos_major Dryocopus_martius 
-##  Min.   :-3.0433   Min.   :-1.0999   Min.   :-0.21536  
-##  1st Qu.:-2.5865   1st Qu.:-0.3776   1st Qu.: 0.07844  
-##  Median :-2.4453   Median :-0.2361   Median : 0.13515  
-##  Mean   :-2.2868   Mean   :-0.2634   Mean   : 0.12705  
-##  3rd Qu.:-2.2021   3rd Qu.:-0.1081   3rd Qu.: 0.18661  
-##  Max.   : 0.2162   Max.   : 0.1281   Max.   : 0.35527  
-##  Emberiza_citrinella Emberiza_rustica  Emberiza_schoeniclus
-##  Min.   :0.005015    Min.   :-1.6310   Min.   :-0.7425957  
-##  1st Qu.:0.551414    1st Qu.:-0.4188   1st Qu.:-0.4075888  
-##  Median :0.664654    Median :-0.2454   Median :-0.2475176  
-##  Mean   :0.742450    Mean   :-0.3053   Mean   :-0.2145071  
-##  3rd Qu.:0.857685    3rd Qu.:-0.1303   3rd Qu.:-0.0007313  
-##  Max.   :2.346957    Max.   : 0.2498   Max.   : 0.4035039  
-##  Erithacus_rubecula Falco_tinnunculus    Ficedula_hypoleuca
-##  Min.   :-0.2680    Min.   :-0.3770463   Min.   :-0.6249   
-##  1st Qu.: 0.8515    1st Qu.:-0.2237756   1st Qu.: 0.0187   
-##  Median : 1.2407    Median :-0.1930978   Median : 0.2276   
-##  Mean   : 1.1926    Mean   :-0.1956317   Mean   : 0.1360   
-##  3rd Qu.: 1.5755    3rd Qu.:-0.1644937   3rd Qu.: 0.3095   
-##  Max.   : 2.3727    Max.   :-0.0008645   Max.   : 0.6905   
-##  Fringilla_coelebs Fringilla_montifringilla  Fulica_atra     
-##  Min.   :0.6297    Min.   :-3.4815          Min.   :-4.3202  
-##  1st Qu.:2.3345    1st Qu.:-1.3625          1st Qu.:-2.8849  
-##  Median :3.0048    Median :-0.9057          Median :-2.5307  
-##  Mean   :2.8552    Mean   :-0.9334          Mean   :-2.4998  
-##  3rd Qu.:3.4705    3rd Qu.:-0.4379          3rd Qu.:-2.1154  
-##  Max.   :4.1131    Max.   : 0.7288          Max.   :-0.0887  
-##  Gallinago_gallinago Garrulus_glandarius Gavia_arctica     
-##  Min.   :-0.8150     Min.   :-1.12085    Min.   :-0.25581  
-##  1st Qu.:-0.3233     1st Qu.:-0.45069    1st Qu.: 0.02963  
-##  Median :-0.2467     Median :-0.20551    Median : 0.11717  
-##  Mean   :-0.2456     Mean   :-0.24942    Mean   : 0.11396  
-##  3rd Qu.:-0.1666     3rd Qu.:-0.01423    3rd Qu.: 0.17994  
-##  Max.   : 0.4443     Max.   : 0.36633    Max.   : 0.92926  
-##  Gavia_stellata        Grus_grus         Haematopus_ostralegus
-##  Min.   :-0.002157   Min.   :-1.400008   Min.   :-2.0651      
-##  1st Qu.: 0.120878   1st Qu.:-1.060534   1st Qu.:-0.6474      
-##  Median : 0.175559   Median :-0.945549   Median :-0.3956      
-##  Mean   : 0.179102   Mean   :-0.929036   Mean   :-0.2156      
-##  3rd Qu.: 0.216493   3rd Qu.:-0.827832   3rd Qu.: 0.1343      
-##  Max.   : 0.605981   Max.   : 0.002325   Max.   : 2.2779      
-##  Hippolais_icterina Hirundo_rustica    Jynx_torquilla    Lagopus_lagopus  
-##  Min.   :-0.7548    Min.   :-2.30527   Min.   :-0.4273   Min.   :-1.4313  
-##  1st Qu.:-0.4640    1st Qu.:-1.95206   1st Qu.:-0.3096   1st Qu.:-1.1968  
-##  Median :-0.3275    Median :-1.84613   Median :-0.2926   Median :-1.0941  
-##  Mean   :-0.2724    Mean   :-1.72549   Mean   :-0.2914   Mean   :-0.9687  
-##  3rd Qu.:-0.1616    3rd Qu.:-1.64620   3rd Qu.:-0.2744   3rd Qu.:-0.7984  
-##  Max.   : 0.8717    Max.   :-0.04541   Max.   :-0.1700   Max.   : 0.5717  
-##  Lanius_collurio   Larus_argentatus  Larus_canus      Larus_marinus   
-##  Min.   :-0.8487   Min.   :-3.481   Min.   :-1.4269   Min.   :-3.279  
-##  1st Qu.:-0.6304   1st Qu.:-2.678   1st Qu.:-0.7850   1st Qu.:-2.651  
-##  Median :-0.5607   Median :-2.378   Median :-0.6026   Median :-2.459  
-##  Mean   :-0.5350   Mean   :-2.141   Mean   :-0.4719   Mean   :-2.197  
-##  3rd Qu.:-0.4468   3rd Qu.:-1.892   3rd Qu.:-0.3408   3rd Qu.:-1.863  
-##  Max.   :-0.1453   Max.   : 1.762   Max.   : 2.0735   Max.   : 1.041  
-##  Larus_ridibundus  Loxia_curvirostra Loxia_pytyopsittacus
-##  Min.   :-2.0044   Min.   :-1.2426   Min.   :-2.4966     
-##  1st Qu.:-1.2242   1st Qu.:-0.7750   1st Qu.:-2.0235     
-##  Median :-0.9879   Median :-0.6650   Median :-1.9128     
-##  Mean   :-0.8967   Mean   :-0.6397   Mean   :-1.8479     
-##  3rd Qu.:-0.7085   3rd Qu.:-0.5845   3rd Qu.:-1.7394     
-##  Max.   : 1.1119   Max.   : 0.7627   Max.   :-0.3175     
-##  Lullula_arborea   Luscinia_luscinia Luscinia_svecica   Mergus_merganser 
-##  Min.   :0.04852   Min.   :-2.5120   Min.   :-0.79657   Min.   :-1.4173  
-##  1st Qu.:0.46448   1st Qu.:-1.6639   1st Qu.:-0.32326   1st Qu.:-1.1052  
-##  Median :0.54034   Median :-1.3248   Median :-0.12394   Median :-1.0080  
-##  Mean   :0.62543   Mean   :-1.3162   Mean   :-0.06193   Mean   :-0.9207  
-##  3rd Qu.:0.71598   3rd Qu.:-1.0353   3rd Qu.: 0.19781   3rd Qu.:-0.9385  
-##  Max.   :1.39341   Max.   : 0.1574   Max.   : 0.69878   Max.   : 1.3093  
-##  Motacilla_alba    Motacilla_flava   Muscicapa_striata Numenius_arquata  
-##  Min.   :-1.4232   Min.   :-1.5491   Min.   :0.3611    Min.   :-1.28965  
-##  1st Qu.:-1.0329   1st Qu.:-0.8764   1st Qu.:0.6326    1st Qu.:-0.37706  
-##  Median :-0.9024   Median :-0.6707   Median :0.7638    Median :-0.08249  
-##  Mean   :-0.8104   Mean   :-0.6593   Mean   :0.7317    Mean   :-0.02274  
-##  3rd Qu.:-0.6734   3rd Qu.:-0.4470   3rd Qu.:0.8281    3rd Qu.: 0.26506  
-##  Max.   : 0.5965   Max.   : 0.5229   Max.   :0.9737    Max.   : 1.56211  
-##  Numenius_phaeopus Oenanthe_oenanthe Pandion_haliaetus   Parus_ater      
-##  Min.   :-0.8197   Min.   :-1.5697   Min.   :-0.7538   Min.   :-0.85841  
-##  1st Qu.:-0.4367   1st Qu.:-0.9409   1st Qu.:-0.5223   1st Qu.:-0.31126  
-##  Median :-0.2902   Median :-0.8038   Median :-0.4694   Median :-0.09662  
-##  Mean   :-0.2873   Mean   :-0.6060   Mean   :-0.4505   Mean   :-0.14628  
-##  3rd Qu.:-0.1421   3rd Qu.:-0.2858   3rd Qu.:-0.3981   3rd Qu.: 0.04593  
-##  Max.   : 0.4673   Max.   : 0.7425   Max.   : 0.1591   Max.   : 0.40996  
-##  Parus_caeruleus    Parus_cristatus   Parus_major       Parus_montanus    
-##  Min.   :-2.05215   Min.   :0.1641   Min.   :-1.92411   Min.   :-0.38565  
-##  1st Qu.:-0.53893   1st Qu.:0.5117   1st Qu.:-0.07099   1st Qu.: 0.09361  
-##  Median :-0.29011   Median :0.6582   Median : 0.36222   Median : 0.17578  
-##  Mean   :-0.32377   Mean   :0.6450   Mean   : 0.30555   Mean   : 0.14224  
-##  3rd Qu.: 0.08619   3rd Qu.:0.7781   3rd Qu.: 0.87517   3rd Qu.: 0.23530  
-##  Max.   : 0.79827   Max.   :1.1828   Max.   : 1.71359   Max.   : 0.38418  
-##  Parus_palustris   Passer_domesticus  Passer_montanus  
-##  Min.   :-0.6696   Min.   :-0.47467   Min.   :-1.6601  
-##  1st Qu.:-0.4037   1st Qu.:-0.26019   1st Qu.:-0.7428  
-##  Median :-0.3554   Median :-0.15244   Median :-0.4763  
-##  Mean   :-0.3408   Mean   :-0.06155   Mean   :-0.4947  
-##  3rd Qu.:-0.3046   3rd Qu.: 0.05305   3rd Qu.:-0.2168  
-##  Max.   : 0.3920   Max.   : 1.01875   Max.   : 0.9249  
-##  Perisoreus_infaustus Phalacrocorax_carbo Phasianus_colchicus
-##  Min.   :-1.9931      Min.   :-1.8646     Min.   :-1.09484   
-##  1st Qu.:-1.7615      1st Qu.:-0.8403     1st Qu.:-0.35933   
-##  Median :-1.6867      Median :-0.6842     Median :-0.12153   
-##  Mean   :-1.6551      Mean   :-0.5335     Mean   :-0.06768   
-##  3rd Qu.:-1.6049      3rd Qu.:-0.3834     3rd Qu.: 0.23095   
-##  Max.   :-0.6313      Max.   : 2.2339     Max.   : 1.23378   
-##  Phoenicurus_phoenicurus Phylloscopus_collybita Phylloscopus_sibilatrix
-##  Min.   :-1.7327         Min.   :0.1111         Min.   :-0.6172        
-##  1st Qu.:-0.9840         1st Qu.:0.4401         1st Qu.: 0.3852        
-##  Median :-0.7409         Median :0.4999         Median : 0.5648        
-##  Mean   :-0.7628         Mean   :0.5017         Mean   : 0.5348        
-##  3rd Qu.:-0.5372         3rd Qu.:0.5641         3rd Qu.: 0.8034        
-##  Max.   : 0.3158         Max.   :0.9563         Max.   : 1.3768        
-##  Phylloscopus_trochilus   Pica_pica       Picus_viridis    
-##  Min.   :1.119          Min.   :-0.4477   Min.   :-0.1868  
-##  1st Qu.:1.680          1st Qu.:-0.2643   1st Qu.: 0.1284  
-##  Median :1.852          Median :-0.2027   Median : 0.2152  
-##  Mean   :1.810          Mean   :-0.1620   Mean   : 0.1907  
-##  3rd Qu.:1.957          3rd Qu.:-0.1099   3rd Qu.: 0.2627  
-##  Max.   :2.617          Max.   : 0.9002   Max.   : 0.4625  
-##  Pluvialis_apricaria Podiceps_cristatus Prunella_modularis
-##  Min.   :-1.9965     Min.   :-3.6251    Min.   :-0.1087   
-##  1st Qu.:-1.4093     1st Qu.:-2.0998    1st Qu.: 0.4777   
-##  Median :-1.1768     Median :-1.7694    Median : 0.5900   
-##  Mean   :-1.0229     Mean   :-1.7790    Mean   : 0.5707   
-##  3rd Qu.:-0.8072     3rd Qu.:-1.4231    3rd Qu.: 0.6819   
-##  Max.   : 0.5709     Max.   : 0.7912    Max.   : 1.0424   
-##  Pyrrhula_pyrrhula  Regulus_regulus   Saxicola_rubetra 
-##  Min.   :-0.05593   Min.   :-0.3479   Min.   :-1.5981  
-##  1st Qu.: 0.28621   1st Qu.: 0.3857   1st Qu.:-0.4509  
-##  Median : 0.32165   Median : 0.6833   Median :-0.3807  
-##  Mean   : 0.31640   Mean   : 0.6510   Mean   :-0.3903  
-##  3rd Qu.: 0.35441   3rd Qu.: 0.9231   3rd Qu.:-0.2704  
-##  Max.   : 0.47100   Max.   : 1.6294   Max.   : 0.4159  
-##  Scolopax_rusticola   Sitta_europaea    Sterna_hirundo   
-##  Min.   :-0.1896995   Min.   :-1.0884   Min.   :-2.7803  
-##  1st Qu.:-0.0180057   1st Qu.: 0.2347   1st Qu.:-2.2902  
-##  Median : 0.0132129   Median : 0.4626   Median :-2.1170  
-##  Mean   :-0.0004327   Mean   : 0.3674   Mean   :-1.9655  
-##  3rd Qu.: 0.0326918   3rd Qu.: 0.7134   3rd Qu.:-1.8625  
-##  Max.   : 0.2084270   Max.   : 1.1608   Max.   : 0.7109  
-##  Sturnus_vulgaris  Sylvia_atricapilla  Sylvia_borin      Sylvia_communis  
-##  Min.   :-4.4382   Min.   :-4.1612    Min.   :-1.42642   Min.   :-1.7475  
-##  1st Qu.:-3.4570   1st Qu.:-1.8603    1st Qu.:-0.05944   1st Qu.:-1.0042  
-##  Median :-3.0781   Median :-1.4082    Median : 0.19885   Median :-0.6594  
-##  Mean   :-2.9139   Mean   :-1.4394    Mean   : 0.18619   Mean   :-0.6346  
-##  3rd Qu.:-2.4859   3rd Qu.:-0.7857    3rd Qu.: 0.57101   3rd Qu.:-0.2894  
-##  Max.   :-0.3027   Max.   : 0.2706    Max.   : 1.35124   Max.   : 0.9218  
-##  Sylvia_curruca    Tetrao_tetrix      Tetrao_urogallus  Tringa_glareola  
-##  Min.   :-0.3266   Min.   :-0.42784   Min.   :-1.0914   Min.   :-1.6406  
-##  1st Qu.: 0.2614   1st Qu.: 0.08077   1st Qu.:-0.5589   1st Qu.:-1.1440  
-##  Median : 0.3881   Median : 0.16192   Median :-0.4775   Median :-0.9403  
-##  Mean   : 0.3805   Mean   : 0.14142   Mean   :-0.5024   Mean   :-0.9060  
-##  3rd Qu.: 0.4992   3rd Qu.: 0.22239   3rd Qu.:-0.4300   3rd Qu.:-0.7045  
-##  Max.   : 0.9918   Max.   : 0.51603   Max.   :-0.1586   Max.   : 0.6445  
-##  Tringa_nebularia  Tringa_ochropus     Tringa_totanus     
-##  Min.   :-0.7743   Min.   :-0.641890   Min.   :-0.497215  
-##  1st Qu.:-0.3939   1st Qu.:-0.064053   1st Qu.:-0.168689  
-##  Median :-0.3000   Median : 0.022515   Median : 0.001198  
-##  Mean   :-0.3029   Mean   : 0.002501   Mean   : 0.082932  
-##  3rd Qu.:-0.2131   3rd Qu.: 0.091032   3rd Qu.: 0.298001  
-##  Max.   : 0.2562   Max.   : 0.372126   Max.   : 1.334745  
-##  Troglodytes_troglodytes Turdus_iliacus     Turdus_merula     
-##  Min.   :-1.73950        Min.   :-0.65667   Min.   :-2.50945  
-##  1st Qu.:-0.73037        1st Qu.:-0.19189   1st Qu.:-0.56166  
-##  Median :-0.31779        Median :-0.03002   Median : 0.06458  
-##  Mean   :-0.34966        Mean   :-0.03447   Mean   : 0.03065  
-##  3rd Qu.: 0.03388        3rd Qu.: 0.10348   3rd Qu.: 0.71042  
-##  Max.   : 0.97236        Max.   : 0.80784   Max.   : 1.87416  
-##  Turdus_philomelos Turdus_pilaris    Turdus_torquatus   Turdus_viscivorus
-##  Min.   :-0.6874   Min.   :-0.2449   Min.   :-0.82790   Min.   :-0.8696  
-##  1st Qu.: 0.2912   1st Qu.: 0.7357   1st Qu.:-0.26984   1st Qu.:-0.5240  
-##  Median : 0.6460   Median : 0.8979   Median :-0.15254   Median :-0.4329  
-##  Mean   : 0.5640   Mean   : 0.8944   Mean   :-0.07204   Mean   :-0.4545  
-##  3rd Qu.: 0.8810   3rd Qu.: 1.0641   3rd Qu.: 0.12601   3rd Qu.:-0.3702  
-##  Max.   : 1.3576   Max.   : 2.2646   Max.   : 0.70451   Max.   :-0.2564  
-##  Vanellus_vanellus
-##  Min.   :-0.3082  
-##  1st Qu.: 0.3867  
-##  Median : 0.5588  
-##  Mean   : 0.6351  
-##  3rd Qu.: 0.8500  
-##  Max.   : 1.8797</code></pre>
-<pre class="r"><code>#changes in total abundances from present to 2055 in scenario 26
-abundances_pres=colSums(exp(abupres))
-abundances_pres</code></pre>
-<pre><code>##        Acrocephalus_palustris    Acrocephalus_schoenobaenus 
-##                    10086.0921                    10360.1667 
-##       Acrocephalus_scirpaceus            Actitis_hypoleucos 
-##                     1932.9134                    10714.2898 
-##           Aegithalos_caudatus               Alauda_arvensis 
-##                     2181.6708                    12182.0629 
-##                   Anas_crecca            Anas_platyrhynchos 
-##                     3601.2268                     2848.4128 
-##                   Anser_anser              Anthus_pratensis 
-##                     3401.6073                    10596.1163 
-##              Anthus_trivialis                     Apus_apus 
-##                    36921.4886                     2210.6169 
-##                 Ardea_cinerea               Aythya_fuligula 
-##                     8569.2556                     8675.0395 
-##                Bonasa_bonasia             Branta_canadensis 
-##                    11417.9083                     3076.7656 
-##            Bucephala_clangula                   Buteo_buteo 
-##                     3745.0609                    10155.7370 
-##           Carduelis_cannabina           Carduelis_carduelis 
-##                     1811.6517                     5044.9807 
-##             Carduelis_chloris             Carduelis_flammea 
-##                     6596.1786                    13697.7871 
-##              Carduelis_spinus         Carpodacus_erythrinus 
-##                    32045.7785                    22869.1078 
-##            Certhia_familiaris Coccothraustes_coccothraustes 
-##                    13227.5360                    12193.8350 
-##                 Columba_livia                 Columba_oenas 
-##                    12316.4106                    11023.0632 
-##              Columba_palumbus                  Corvus_corax 
-##                    11610.4778                     7844.1201 
-##                 Corvus_corone               Corvus_monedula 
-##                     7875.9993                     1098.2136 
-##               Cuculus_canorus                 Cygnus_cygnus 
-##                    19781.6820                     5546.4192 
-##                   Cygnus_olor              Delichon_urbicum 
-##                     1020.7746                     1458.9112 
-##             Dendrocopos_major             Dryocopus_martius 
-##                     9299.6269                    13535.3329 
-##           Emberiza_citrinella              Emberiza_rustica 
-##                    26337.8803                     9002.2109 
-##          Emberiza_schoeniclus            Erithacus_rubecula 
-##                     9862.4572                    43803.4798 
-##             Falco_tinnunculus            Ficedula_hypoleuca 
-##                     9779.7524                    14037.8644 
-##             Fringilla_coelebs      Fringilla_montifringilla 
-##                   259046.0043                     5773.6333 
-##                   Fulica_atra           Gallinago_gallinago 
-##                     1263.4069                     9404.0821 
-##           Garrulus_glandarius                 Gavia_arctica 
-##                     9664.9522                    13451.8192 
-##                Gavia_stellata                     Grus_grus 
-##                    14261.2056                     4792.4778 
-##         Haematopus_ostralegus            Hippolais_icterina 
-##                    12485.5811                     9424.4860 
-##               Hirundo_rustica                Jynx_torquilla 
-##                     2304.1928                     8878.6700 
-##               Lagopus_lagopus               Lanius_collurio 
-##                     4791.2863                     7015.8460 
-##              Larus_argentatus                   Larus_canus 
-##                     2530.1383                     9029.3010 
-##                 Larus_marinus              Larus_ridibundus 
-##                     1879.0227                     5528.5454 
-##             Loxia_curvirostra          Loxia_pytyopsittacus 
-##                     6501.2328                     1977.7659 
-##               Lullula_arborea             Luscinia_luscinia 
-##                    23080.1502                     3533.9657 
-##              Luscinia_svecica              Mergus_merganser 
-##                    11895.0537                     5385.3101 
-##                Motacilla_alba               Motacilla_flava 
-##                     5682.3006                     6453.0122 
-##             Muscicapa_striata              Numenius_arquata 
-##                    24884.1151                    13394.0818 
-##             Numenius_phaeopus             Oenanthe_oenanthe 
-##                     9092.0536                     7333.2968 
-##             Pandion_haliaetus                    Parus_ater 
-##                     7639.4231                    10616.8921 
-##               Parus_caeruleus               Parus_cristatus 
-##                     9714.0819                    23038.9883 
-##                   Parus_major                Parus_montanus 
-##                    19816.5163                    13809.1232 
-##               Parus_palustris             Passer_domesticus 
-##                     8548.0547                    11685.3701 
-##               Passer_montanus          Perisoreus_infaustus 
-##                     8102.6295                     2312.4492 
-##           Phalacrocorax_carbo           Phasianus_colchicus 
-##                     8748.9891                    12081.3920 
-##       Phoenicurus_phoenicurus        Phylloscopus_collybita 
-##                     5792.0785                    19713.8789 
-##       Phylloscopus_sibilatrix        Phylloscopus_trochilus 
-##                    21418.7591                    74441.1729 
-##                     Pica_pica                 Picus_viridis 
-##                    10263.9149                    14450.8411 
-##           Pluvialis_apricaria            Podiceps_cristatus 
-##                     5147.3037                     2506.8998 
-##            Prunella_modularis             Pyrrhula_pyrrhula 
-##                    21286.1902                    16326.0360 
-##               Regulus_regulus              Saxicola_rubetra 
-##                    24576.6134                     8260.2000 
-##            Scolopax_rusticola                Sitta_europaea 
-##                    11893.2980                    18737.3333 
-##                Sterna_hirundo              Sturnus_vulgaris 
-##                     2048.6434                      900.4185 
-##            Sylvia_atricapilla                  Sylvia_borin 
-##                     3713.5699                    16034.6521 
-##               Sylvia_communis                Sylvia_curruca 
-##                     7007.9988                    17664.3212 
-##                 Tetrao_tetrix              Tetrao_urogallus 
-##                    13774.2491                     7232.9120 
-##               Tringa_glareola              Tringa_nebularia 
-##                     5094.0896                     8858.9943 
-##               Tringa_ochropus                Tringa_totanus 
-##                    12008.0158                    13684.2536 
-##       Troglodytes_troglodytes                Turdus_iliacus 
-##                     9489.2165                    11737.2751 
-##                 Turdus_merula             Turdus_philomelos 
-##                    16769.5381                    22502.4611 
-##                Turdus_pilaris              Turdus_torquatus 
-##                    30299.5635                    11481.3246 
-##             Turdus_viscivorus             Vanellus_vanellus 
-##                     7580.0177                    23817.9124</code></pre>
-<pre class="r"><code>abundances_26=colSums(exp(abu26))
-abundances_26</code></pre>
-<pre><code>##        Acrocephalus_palustris    Acrocephalus_schoenobaenus 
-##                     9200.3906                    11097.5216 
-##       Acrocephalus_scirpaceus            Actitis_hypoleucos 
-##                     2027.0406                    10892.6581 
-##           Aegithalos_caudatus               Alauda_arvensis 
-##                     2241.4034                    13471.4451 
-##                   Anas_crecca            Anas_platyrhynchos 
-##                     3648.9422                     2805.9643 
-##                   Anser_anser              Anthus_pratensis 
-##                     3308.6027                    11070.2104 
-##              Anthus_trivialis                     Apus_apus 
-##                    37950.8677                     2364.4946 
-##                 Ardea_cinerea               Aythya_fuligula 
-##                     9422.9511                     9729.3230 
-##                Bonasa_bonasia             Branta_canadensis 
-##                    11534.5059                     2885.9121 
-##            Bucephala_clangula                   Buteo_buteo 
-##                     3907.4218                    10474.5362 
-##           Carduelis_cannabina           Carduelis_carduelis 
-##                     1822.7603                     5084.4057 
-##             Carduelis_chloris             Carduelis_flammea 
-##                     6985.8584                    15403.2605 
-##              Carduelis_spinus         Carpodacus_erythrinus 
-##                    34244.7663                    25098.0698 
-##            Certhia_familiaris Coccothraustes_coccothraustes 
-##                    13382.8953                    12743.8203 
-##                 Columba_livia                 Columba_oenas 
-##                    12613.8202                    11603.8861 
-##              Columba_palumbus                  Corvus_corax 
-##                    10609.8641                     8127.2192 
-##                 Corvus_corone               Corvus_monedula 
-##                     7870.0952                      914.0840 
-##               Cuculus_canorus                 Cygnus_cygnus 
-##                    20392.9679                     5647.0878 
-##                   Cygnus_olor              Delichon_urbicum 
-##                      993.8066                     1384.6921 
-##             Dendrocopos_major             Dryocopus_martius 
-##                     9448.7833                    13555.9349 
-##           Emberiza_citrinella              Emberiza_rustica 
-##                    29182.1341                     8841.2507 
-##          Emberiza_schoeniclus            Erithacus_rubecula 
-##                    10371.3208                    40371.6706 
-##             Falco_tinnunculus            Ficedula_hypoleuca 
-##                     9475.9893                    15517.8998 
-##             Fringilla_coelebs      Fringilla_montifringilla 
-##                   249843.2950                     6531.7132 
-##                   Fulica_atra           Gallinago_gallinago 
-##                     1141.4149                    10393.6295 
-##           Garrulus_glandarius                 Gavia_arctica 
-##                     9223.7616                    13922.0358 
-##                Gavia_stellata                     Grus_grus 
-##                    13997.4839                     4977.5459 
-##         Haematopus_ostralegus            Hippolais_icterina 
-##                    12327.6806                     9304.0456 
-##               Hirundo_rustica                Jynx_torquilla 
-##                     2290.8050                     9289.4542 
-##               Lagopus_lagopus               Lanius_collurio 
-##                     4692.7063                     7242.1066 
-##              Larus_argentatus                   Larus_canus 
-##                     2362.8603                     9720.8420 
-##                 Larus_marinus              Larus_ridibundus 
-##                     1681.3211                     5860.7122 
-##             Loxia_curvirostra          Loxia_pytyopsittacus 
-##                     5695.8616                     1784.8192 
-##               Lullula_arborea             Luscinia_luscinia 
-##                    24333.6491                     3841.8618 
-##              Luscinia_svecica              Mergus_merganser 
-##                    12609.7954                     6111.8961 
-##                Motacilla_alba               Motacilla_flava 
-##                     5795.1521                     6812.9137 
-##             Muscicapa_striata              Numenius_arquata 
-##                    26839.7948                    16732.6434 
-##             Numenius_phaeopus             Oenanthe_oenanthe 
-##                     8886.0513                     7330.9402 
-##             Pandion_haliaetus                    Parus_ater 
-##                     7520.1837                    10695.8472 
-##               Parus_caeruleus               Parus_cristatus 
-##                     9875.3845                    23968.6365 
-##                   Parus_major                Parus_montanus 
-##                    19802.8129                    14380.9230 
-##               Parus_palustris             Passer_domesticus 
-##                     8710.9483                    12698.0386 
-##               Passer_montanus          Perisoreus_infaustus 
-##                     7561.5496                     2204.8883 
-##           Phalacrocorax_carbo           Phasianus_colchicus 
-##                    10034.7685                    11861.7708 
-##       Phoenicurus_phoenicurus        Phylloscopus_collybita 
-##                     6483.1478                    17780.1072 
-##       Phylloscopus_sibilatrix        Phylloscopus_trochilus 
-##                    21079.9271                    75219.8908 
-##                     Pica_pica                 Picus_viridis 
-##                    10028.6804                    14818.8299 
-##           Pluvialis_apricaria            Podiceps_cristatus 
-##                     5296.8566                     2515.7069 
-##            Prunella_modularis             Pyrrhula_pyrrhula 
-##                    20210.5071                    16684.3018 
-##               Regulus_regulus              Saxicola_rubetra 
-##                    24525.4646                     8138.4059 
-##            Scolopax_rusticola                Sitta_europaea 
-##                    12351.5300                    19485.1583 
-##                Sterna_hirundo              Sturnus_vulgaris 
-##                     2034.4449                      792.7189 
-##            Sylvia_atricapilla                  Sylvia_borin 
-##                     2702.8769                    16314.8629 
-##               Sylvia_communis                Sylvia_curruca 
-##                     6645.5926                    17535.1126 
-##                 Tetrao_tetrix              Tetrao_urogallus 
-##                    14239.9478                     7380.8772 
-##               Tringa_glareola              Tringa_nebularia 
-##                     6053.1118                     8930.1125 
-##               Tringa_ochropus                Tringa_totanus 
-##                    11870.9529                    14356.6350 
-##       Troglodytes_troglodytes                Turdus_iliacus 
-##                     7844.1304                    13009.6603 
-##                 Turdus_merula             Turdus_philomelos 
-##                    14309.4958                    20433.5575 
-##                Turdus_pilaris              Turdus_torquatus 
-##                    33581.7549                    11823.9523 
-##             Turdus_viscivorus             Vanellus_vanellus 
-##                     7618.7732                    25864.8079</code></pre>
-<pre class="r"><code>#muutos
-abuchange26=abundances_pres-abundances_26
-abuchange26</code></pre>
-<pre><code>##        Acrocephalus_palustris    Acrocephalus_schoenobaenus 
-##                    885.701484                   -737.354838 
-##       Acrocephalus_scirpaceus            Actitis_hypoleucos 
-##                    -94.127263                   -178.368327 
-##           Aegithalos_caudatus               Alauda_arvensis 
-##                    -59.732559                  -1289.382141 
-##                   Anas_crecca            Anas_platyrhynchos 
-##                    -47.715410                     42.448485 
-##                   Anser_anser              Anthus_pratensis 
-##                     93.004582                   -474.094134 
-##              Anthus_trivialis                     Apus_apus 
-##                  -1029.379062                   -153.877737 
-##                 Ardea_cinerea               Aythya_fuligula 
-##                   -853.695588                  -1054.283546 
-##                Bonasa_bonasia             Branta_canadensis 
-##                   -116.597596                    190.853507 
-##            Bucephala_clangula                   Buteo_buteo 
-##                   -162.360863                   -318.799194 
-##           Carduelis_cannabina           Carduelis_carduelis 
-##                    -11.108590                    -39.425002 
-##             Carduelis_chloris             Carduelis_flammea 
-##                   -389.679851                  -1705.473411 
-##              Carduelis_spinus         Carpodacus_erythrinus 
-##                  -2198.987831                  -2228.961964 
-##            Certhia_familiaris Coccothraustes_coccothraustes 
-##                   -155.359377                   -549.985245 
-##                 Columba_livia                 Columba_oenas 
-##                   -297.409611                   -580.822972 
-##              Columba_palumbus                  Corvus_corax 
-##                   1000.613663                   -283.099183 
-##                 Corvus_corone               Corvus_monedula 
-##                      5.904087                    184.129657 
-##               Cuculus_canorus                 Cygnus_cygnus 
-##                   -611.285886                   -100.668543 
-##                   Cygnus_olor              Delichon_urbicum 
-##                     26.967999                     74.219122 
-##             Dendrocopos_major             Dryocopus_martius 
-##                   -149.156354                    -20.601939 
-##           Emberiza_citrinella              Emberiza_rustica 
-##                  -2844.253802                    160.960158 
-##          Emberiza_schoeniclus            Erithacus_rubecula 
-##                   -508.863549                   3431.809179 
-##             Falco_tinnunculus            Ficedula_hypoleuca 
-##                    303.763175                  -1480.035498 
-##             Fringilla_coelebs      Fringilla_montifringilla 
-##                   9202.709335                   -758.079935 
-##                   Fulica_atra           Gallinago_gallinago 
-##                    121.991975                   -989.547366 
-##           Garrulus_glandarius                 Gavia_arctica 
-##                    441.190577                   -470.216602 
-##                Gavia_stellata                     Grus_grus 
-##                    263.721709                   -185.068131 
-##         Haematopus_ostralegus            Hippolais_icterina 
-##                    157.900465                    120.440384 
-##               Hirundo_rustica                Jynx_torquilla 
-##                     13.387792                   -410.784145 
-##               Lagopus_lagopus               Lanius_collurio 
-##                     98.580032                   -226.260641 
-##              Larus_argentatus                   Larus_canus 
-##                    167.278058                   -691.541016 
-##                 Larus_marinus              Larus_ridibundus 
-##                    197.701595                   -332.166785 
-##             Loxia_curvirostra          Loxia_pytyopsittacus 
-##                    805.371127                    192.946722 
-##               Lullula_arborea             Luscinia_luscinia 
-##                  -1253.498826                   -307.896109 
-##              Luscinia_svecica              Mergus_merganser 
-##                   -714.741735                   -726.586053 
-##                Motacilla_alba               Motacilla_flava 
-##                   -112.851485                   -359.901453 
-##             Muscicapa_striata              Numenius_arquata 
-##                  -1955.679647                  -3338.561622 
-##             Numenius_phaeopus             Oenanthe_oenanthe 
-##                    206.002328                      2.356603 
-##             Pandion_haliaetus                    Parus_ater 
-##                    119.239373                    -78.955064 
-##               Parus_caeruleus               Parus_cristatus 
-##                   -161.302633                   -929.648234 
-##                   Parus_major                Parus_montanus 
-##                     13.703437                   -571.799805 
-##               Parus_palustris             Passer_domesticus 
-##                   -162.893611                  -1012.668458 
-##               Passer_montanus          Perisoreus_infaustus 
-##                    541.079932                    107.560880 
-##           Phalacrocorax_carbo           Phasianus_colchicus 
-##                  -1285.779360                    219.621206 
-##       Phoenicurus_phoenicurus        Phylloscopus_collybita 
-##                   -691.069306                   1933.771736 
-##       Phylloscopus_sibilatrix        Phylloscopus_trochilus 
-##                    338.832033                   -778.717918 
-##                     Pica_pica                 Picus_viridis 
-##                    235.234521                   -367.988766 
-##           Pluvialis_apricaria            Podiceps_cristatus 
-##                   -149.552917                     -8.807106 
-##            Prunella_modularis             Pyrrhula_pyrrhula 
-##                   1075.683120                   -358.265801 
-##               Regulus_regulus              Saxicola_rubetra 
-##                     51.148849                    121.794143 
-##            Scolopax_rusticola                Sitta_europaea 
-##                   -458.231989                   -747.824976 
-##                Sterna_hirundo              Sturnus_vulgaris 
-##                     14.198492                    107.699575 
-##            Sylvia_atricapilla                  Sylvia_borin 
-##                   1010.692951                   -280.210853 
-##               Sylvia_communis                Sylvia_curruca 
-##                    362.406224                    129.208537 
-##                 Tetrao_tetrix              Tetrao_urogallus 
-##                   -465.698774                   -147.965241 
-##               Tringa_glareola              Tringa_nebularia 
-##                   -959.022157                    -71.118193 
-##               Tringa_ochropus                Tringa_totanus 
-##                    137.062935                   -672.381322 
-##       Troglodytes_troglodytes                Turdus_iliacus 
-##                   1645.086185                  -1272.385134 
-##                 Turdus_merula             Turdus_philomelos 
-##                   2460.042292                   2068.903569 
-##                Turdus_pilaris              Turdus_torquatus 
-##                  -3282.191455                   -342.627680 
-##             Turdus_viscivorus             Vanellus_vanellus 
-##                    -38.755516                  -2046.895426</code></pre>
-<pre class="r"><code>sort(abuchange26)</code></pre>
-<pre><code>##              Numenius_arquata                Turdus_pilaris 
-##                  -3338.561622                  -3282.191455 
-##           Emberiza_citrinella         Carpodacus_erythrinus 
-##                  -2844.253802                  -2228.961964 
-##              Carduelis_spinus             Vanellus_vanellus 
-##                  -2198.987831                  -2046.895426 
-##             Muscicapa_striata             Carduelis_flammea 
-##                  -1955.679647                  -1705.473411 
-##            Ficedula_hypoleuca               Alauda_arvensis 
-##                  -1480.035498                  -1289.382141 
-##           Phalacrocorax_carbo                Turdus_iliacus 
-##                  -1285.779360                  -1272.385134 
-##               Lullula_arborea               Aythya_fuligula 
-##                  -1253.498826                  -1054.283546 
-##              Anthus_trivialis             Passer_domesticus 
-##                  -1029.379062                  -1012.668458 
-##           Gallinago_gallinago               Tringa_glareola 
-##                   -989.547366                   -959.022157 
-##               Parus_cristatus                 Ardea_cinerea 
-##                   -929.648234                   -853.695588 
-##        Phylloscopus_trochilus      Fringilla_montifringilla 
-##                   -778.717918                   -758.079935 
-##                Sitta_europaea    Acrocephalus_schoenobaenus 
-##                   -747.824976                   -737.354838 
-##              Mergus_merganser              Luscinia_svecica 
-##                   -726.586053                   -714.741735 
-##                   Larus_canus       Phoenicurus_phoenicurus 
-##                   -691.541016                   -691.069306 
-##                Tringa_totanus               Cuculus_canorus 
-##                   -672.381322                   -611.285886 
-##                 Columba_oenas                Parus_montanus 
-##                   -580.822972                   -571.799805 
-## Coccothraustes_coccothraustes          Emberiza_schoeniclus 
-##                   -549.985245                   -508.863549 
-##              Anthus_pratensis                 Gavia_arctica 
-##                   -474.094134                   -470.216602 
-##                 Tetrao_tetrix            Scolopax_rusticola 
-##                   -465.698774                   -458.231989 
-##                Jynx_torquilla             Carduelis_chloris 
-##                   -410.784145                   -389.679851 
-##                 Picus_viridis               Motacilla_flava 
-##                   -367.988766                   -359.901453 
-##             Pyrrhula_pyrrhula              Turdus_torquatus 
-##                   -358.265801                   -342.627680 
-##              Larus_ridibundus                   Buteo_buteo 
-##                   -332.166785                   -318.799194 
-##             Luscinia_luscinia                 Columba_livia 
-##                   -307.896109                   -297.409611 
-##                  Corvus_corax                  Sylvia_borin 
-##                   -283.099183                   -280.210853 
-##               Lanius_collurio                     Grus_grus 
-##                   -226.260641                   -185.068131 
-##            Actitis_hypoleucos               Parus_palustris 
-##                   -178.368327                   -162.893611 
-##            Bucephala_clangula               Parus_caeruleus 
-##                   -162.360863                   -161.302633 
-##            Certhia_familiaris                     Apus_apus 
-##                   -155.359377                   -153.877737 
-##           Pluvialis_apricaria             Dendrocopos_major 
-##                   -149.552917                   -149.156354 
-##              Tetrao_urogallus                Bonasa_bonasia 
-##                   -147.965241                   -116.597596 
-##                Motacilla_alba                 Cygnus_cygnus 
-##                   -112.851485                   -100.668543 
-##       Acrocephalus_scirpaceus                    Parus_ater 
-##                    -94.127263                    -78.955064 
-##              Tringa_nebularia           Aegithalos_caudatus 
-##                    -71.118193                    -59.732559 
-##                   Anas_crecca           Carduelis_carduelis 
-##                    -47.715410                    -39.425002 
-##             Turdus_viscivorus             Dryocopus_martius 
-##                    -38.755516                    -20.601939 
-##           Carduelis_cannabina            Podiceps_cristatus 
-##                    -11.108590                     -8.807106 
-##             Oenanthe_oenanthe                 Corvus_corone 
-##                      2.356603                      5.904087 
-##               Hirundo_rustica                   Parus_major 
-##                     13.387792                     13.703437 
-##                Sterna_hirundo                   Cygnus_olor 
-##                     14.198492                     26.967999 
-##            Anas_platyrhynchos               Regulus_regulus 
-##                     42.448485                     51.148849 
-##              Delichon_urbicum                   Anser_anser 
-##                     74.219122                     93.004582 
-##               Lagopus_lagopus          Perisoreus_infaustus 
-##                     98.580032                    107.560880 
-##              Sturnus_vulgaris             Pandion_haliaetus 
-##                    107.699575                    119.239373 
-##            Hippolais_icterina              Saxicola_rubetra 
-##                    120.440384                    121.794143 
-##                   Fulica_atra                Sylvia_curruca 
-##                    121.991975                    129.208537 
-##               Tringa_ochropus         Haematopus_ostralegus 
-##                    137.062935                    157.900465 
-##              Emberiza_rustica              Larus_argentatus 
-##                    160.960158                    167.278058 
-##               Corvus_monedula             Branta_canadensis 
-##                    184.129657                    190.853507 
-##          Loxia_pytyopsittacus                 Larus_marinus 
-##                    192.946722                    197.701595 
-##             Numenius_phaeopus           Phasianus_colchicus 
-##                    206.002328                    219.621206 
-##                     Pica_pica                Gavia_stellata 
-##                    235.234521                    263.721709 
-##             Falco_tinnunculus       Phylloscopus_sibilatrix 
-##                    303.763175                    338.832033 
-##               Sylvia_communis           Garrulus_glandarius 
-##                    362.406224                    441.190577 
-##               Passer_montanus             Loxia_curvirostra 
-##                    541.079932                    805.371127 
-##        Acrocephalus_palustris              Columba_palumbus 
-##                    885.701484                   1000.613663 
-##            Sylvia_atricapilla            Prunella_modularis 
-##                   1010.692951                   1075.683120 
-##       Troglodytes_troglodytes        Phylloscopus_collybita 
-##                   1645.086185                   1933.771736 
-##             Turdus_philomelos                 Turdus_merula 
-##                   2068.903569                   2460.042292 
-##            Erithacus_rubecula             Fringilla_coelebs 
-##                   3431.809179                   9202.709335</code></pre>
+<pre class="r"><code>str(abupres)</code></pre>
+<pre><code>## 'data.frame':    11878 obs. of  120 variables:
+##  $ Acrocephalus_palustris       : num  -1.57 -1.52 -1.5 -1.51 -1.46 ...
+##  $ Acrocephalus_schoenobaenus   : num  -0.769 -0.744 -0.734 -0.754 -0.679 ...
+##  $ Acrocephalus_scirpaceus      : num  -2.4 -2.4 -2.41 -2.38 -2.36 ...
+##  $ Actitis_hypoleucos           : num  -0.257 -0.24 -0.279 -0.247 -0.268 ...
+##  $ Aegithalos_caudatus          : num  -2.44 -2.39 -2.42 -2.38 -2.38 ...
+##  $ Alauda_arvensis              : num  0.0238 -0.02993 -0.04051 -0.00468 -0.10387 ...
+##  $ Anas_crecca                  : num  -1.54 -1.5 -1.54 -1.51 -1.58 ...
+##  $ Anas_platyrhynchos           : num  -2.84 -2.76 -2.8 -2.77 -2.77 ...
+##  $ Anser_anser                  : num  -3.43 -3.36 -3.36 -3.36 -3.19 ...
+##  $ Anthus_pratensis             : num  1.61 1.51 1.4 1.53 1.34 ...
+##  $ Anthus_trivialis             : num  0.673 0.754 0.742 0.729 0.702 ...
+##  $ Apus_apus                    : num  -2.43 -2.39 -2.47 -2.37 -2.46 ...
+##  $ Ardea_cinerea                : num  -0.238 -0.252 -0.299 -0.252 -0.34 ...
+##  $ Aythya_fuligula              : num  -0.925 -0.932 -0.926 -0.901 -0.883 ...
+##  $ Bonasa_bonasia               : num  -0.315 -0.305 -0.284 -0.3 -0.265 ...
+##  $ Branta_canadensis            : num  -2.85 -2.8 -2.82 -2.78 -2.74 ...
+##  $ Bucephala_clangula           : num  -1.78 -1.75 -1.76 -1.76 -1.75 ...
+##  $ Buteo_buteo                  : num  -0.244 -0.23 -0.243 -0.229 -0.246 ...
+##  $ Carduelis_cannabina          : num  -1.07 -1.09 -1.18 -1.08 -1.27 ...
+##  $ Carduelis_carduelis          : num  -1.21 -1.2 -1.17 -1.19 -1.13 ...
+##  $ Carduelis_chloris            : num  -1.16 -1.14 -1.14 -1.11 -1.14 ...
+##  $ Carduelis_flammea            : num  0.559 0.555 0.583 0.531 0.581 ...
+##  $ Carduelis_spinus             : num  0.878 0.872 0.897 0.881 0.944 ...
+##  $ Carpodacus_erythrinus        : num  1.03 1.03 1.05 1.01 1.07 ...
+##  $ Certhia_familiaris           : num  -0.76 -0.739 -0.71 -0.729 -0.668 ...
+##  $ Coccothraustes_coccothraustes: num  -0.238 -0.233 -0.203 -0.226 -0.143 ...
+##  $ Columba_livia                : num  -0.288 -0.275 -0.285 -0.274 -0.213 ...
+##  $ Columba_oenas                : num  0.703 0.685 0.634 0.71 0.541 ...
+##  $ Columba_palumbus             : num  -2.68 -2.54 -2.5 -2.55 -2.43 ...
+##  $ Corvus_corax                 : num  -0.62 -0.621 -0.626 -0.6 -0.621 ...
+##  $ Corvus_corone                : num  -1.55 -1.49 -1.47 -1.46 -1.43 ...
+##  $ Corvus_monedula              : num  -4.06 -3.96 -4.04 -3.93 -4.03 ...
+##  $ Cuculus_canorus              : num  0.401 0.422 0.422 0.419 0.399 ...
+##  $ Cygnus_cygnus                : num  -0.802 -0.806 -0.808 -0.784 -0.839 ...
+##  $ Cygnus_olor                  : num  -4.24 -4.17 -4.27 -4.14 -4.23 ...
+##  $ Delichon_urbicum             : num  -2.74 -2.75 -2.75 -2.68 -2.76 ...
+##  $ Dendrocopos_major            : num  -0.787 -0.733 -0.741 -0.744 -0.717 ...
+##  $ Dryocopus_martius            : num  0.1009 0.0935 0.0918 0.101 0.0627 ...
+##  $ Emberiza_citrinella          : num  0.45 0.444 0.487 0.457 0.454 ...
+##  $ Emberiza_rustica             : num  0.02479 -0.00094 0.03169 -0.03192 0.04336 ...
+##  $ Emberiza_schoeniclus         : num  0.165 0.162 0.16 0.168 0.186 ...
+##  $ Erithacus_rubecula           : num  -0.1034 -0.0302 0.0281 -0.0249 0.0647 ...
+##  $ Falco_tinnunculus            : num  -0.0895 -0.1006 -0.1028 -0.0983 -0.1214 ...
+##  $ Ficedula_hypoleuca           : num  -0.568 -0.55 -0.535 -0.547 -0.487 ...
+##  $ Fringilla_coelebs            : num  0.772 0.926 0.971 0.887 1.012 ...
+##  $ Fringilla_montifringilla     : num  0.10097 -0.0159 0.09879 -0.00558 0.1912 ...
+##  $ Fulica_atra                  : num  -4.32 -4.25 -4.28 -4.21 -4.23 ...
+##  $ Gallinago_gallinago          : num  -0.211 -0.226 -0.222 -0.194 -0.221 ...
+##  $ Garrulus_glandarius          : num  -1.12 -1.05 -1.06 -1.07 -1.03 ...
+##  $ Gavia_arctica                : num  -0.15 -0.138 -0.167 -0.127 -0.177 ...
+##  $ Gavia_stellata               : num  0.093 0.0671 0.0786 0.0782 0.086 ...
+##  $ Grus_grus                    : num  -1.34 -1.31 -1.31 -1.28 -1.35 ...
+##  $ Haematopus_ostralegus        : num  0.553 0.59 0.393 0.576 0.206 ...
+##  $ Hippolais_icterina           : num  -0.452 -0.425 -0.421 -0.424 -0.393 ...
+##  $ Hirundo_rustica              : num  -2.03 -2.03 -2.05 -2 -2.05 ...
+##  $ Jynx_torquilla               : num  -0.291 -0.272 -0.299 -0.296 -0.302 ...
+##  $ Lagopus_lagopus              : num  -0.666 -0.698 -0.698 -0.698 -0.689 ...
+##  $ Lanius_collurio              : num  -0.329 -0.358 -0.364 -0.338 -0.379 ...
+##  $ Larus_argentatus             : num  -2.06 -2.03 -2.07 -1.98 -2.16 ...
+##  $ Larus_canus                  : num  -1.23 -1.19 -1.24 -1.18 -1.25 ...
+##  $ Larus_marinus                : num  -1.78 -1.76 -1.86 -1.75 -1.98 ...
+##  $ Larus_ridibundus             : num  -0.907 -0.882 -1.039 -0.864 -1.074 ...
+##  $ Loxia_curvirostra            : num  -0.477 -0.493 -0.457 -0.471 -0.497 ...
+##  $ Loxia_pytyopsittacus         : num  -1.56 -1.59 -1.63 -1.56 -1.67 ...
+##  $ Lullula_arborea              : num  1.32 1.32 1.3 1.33 1.26 ...
+##  $ Luscinia_luscinia            : num  -1.38 -1.36 -1.39 -1.33 -1.39 ...
+##  $ Luscinia_svecica             : num  0.699 0.683 0.689 0.684 0.678 ...
+##  $ Mergus_merganser             : num  -1.29 -1.28 -1.29 -1.28 -1.29 ...
+##  $ Motacilla_alba               : num  -1.41 -1.41 -1.39 -1.38 -1.41 ...
+##  $ Motacilla_flava              : num  -0.236 -0.264 -0.237 -0.269 -0.279 ...
+##  $ Muscicapa_striata            : num  0.499 0.508 0.522 0.515 0.535 ...
+##  $ Numenius_arquata             : num  1.56 1.47 1.47 1.48 1.4 ...
+##  $ Numenius_phaeopus            : num  0.03028 0.01361 0.01484 0.00903 -0.01081 ...
+##  $ Oenanthe_oenanthe            : num  0.564 0.533 0.492 0.526 0.395 ...
+##  $ Pandion_haliaetus            : num  -0.754 -0.75 -0.739 -0.735 -0.724 ...
+##  $ Parus_ater                   : num  -0.847 -0.839 -0.84 -0.814 -0.802 ...
+##  $ Parus_caeruleus              : num  -2 -1.93 -1.89 -1.91 -1.77 ...
+##  $ Parus_cristatus              : num  0.21 0.22 0.236 0.23 0.218 ...
+##  $ Parus_major                  : num  -1.83 -1.72 -1.69 -1.72 -1.6 ...
+##  $ Parus_montanus               : num  0.188 0.197 0.192 0.187 0.207 ...
+##  $ Parus_palustris              : num  -0.632 -0.617 -0.607 -0.607 -0.594 ...
+##  $ Passer_domesticus            : num  -0.28 -0.272 -0.303 -0.254 -0.298 ...
+##  $ Passer_montanus              : num  -1.65 -1.61 -1.63 -1.61 -1.62 ...
+##  $ Perisoreus_infaustus         : num  -1.77 -1.79 -1.77 -1.79 -1.76 ...
+##  $ Phalacrocorax_carbo          : num  -0.379 -0.358 -0.488 -0.316 -0.591 ...
+##  $ Phasianus_colchicus          : num  -1.095 -1.061 -1.004 -1.029 -0.964 ...
+##  $ Phoenicurus_phoenicurus      : num  -0.209 -0.26 -0.268 -0.271 -0.262 ...
+##  $ Phylloscopus_collybita       : num  0.467 0.469 0.48 0.48 0.521 ...
+##  $ Phylloscopus_sibilatrix      : num  -0.603 -0.53 -0.473 -0.531 -0.401 ...
+##  $ Phylloscopus_trochilus       : num  1.29 1.31 1.39 1.3 1.47 ...
+##  $ Pica_pica                    : num  -0.185 -0.2 -0.207 -0.165 -0.189 ...
+##  $ Picus_viridis                : num  0.0361 0.0427 0.0562 0.052 0.0947 ...
+##  $ Pluvialis_apricaria          : num  0.53 0.529 0.458 0.516 0.305 ...
+##  $ Podiceps_cristatus           : num  -3.63 -3.56 -3.52 -3.52 -3.36 ...
+##  $ Prunella_modularis           : num  0.372 0.404 0.443 0.403 0.451 ...
+##  $ Pyrrhula_pyrrhula            : num  0.452 0.435 0.449 0.434 0.447 ...
+##  $ Regulus_regulus              : num  -0.302 -0.265 -0.254 -0.258 -0.178 ...
+##  $ Saxicola_rubetra             : num  -0.0865 -0.0685 -0.0769 -0.0634 -0.1348 ...
+##  $ Scolopax_rusticola           : num  -0.127 -0.129 -0.114 -0.137 -0.102 ...
+##   [list output truncated]</code></pre>
+</div>
+<div id="lajien-kokonaislukumäärät-nykyhetkenä-ja-tulevaisuudessa" class="section level2">
+<h2>Lajien kokonaislukumäärät nykyhetkenä ja tulevaisuudessa</h2>
+<pre class="r"><code>sp_name=names(abu26)
+abus=as.data.frame(sp_name)
+abus$abupres=NA
+abus$abu26=NA
+abus$abu45=NA
+abus$abu85=NA
+
+#total population size predicted
+for(i in 1:nrow(abus)){
+  abus$abupres[i]=colSums(exp(abupres[i]))
+  abus$abu26[i]=colSums(exp(abu26[i]))
+  abus$abu45[i]=colSums(exp(abu45[i]))
+  abus$abu85[i]=colSums(exp(abu85[i]))
+}
+
+str(abus)</code></pre>
+<pre><code>## 'data.frame':    120 obs. of  5 variables:
+##  $ sp_name: Factor w/ 120 levels &quot;Acrocephalus_palustris&quot;,..: 1 2 3 4 5 6 7 8 9 10 ...
+##  $ abupres: num  10086 10360 1933 10714 2182 ...
+##  $ abu26  : num  9200 11098 2027 10893 2241 ...
+##  $ abu45  : num  9763 11101 2054 10866 2305 ...
+##  $ abu85  : num  10548 11133 2100 10834 2404 ...</code></pre>
+</div>
+<div id="lajien-kokonaislukumäärissä-ennustetut-muutokset" class="section level2">
+<h2>Lajien kokonaislukumäärissä ennustetut muutokset</h2>
+<pre class="r"><code>changes=as.data.frame(sp_name)
+changes$abu26=NA
+changes$abu45=NA
+changes$abu85=NA
+
+#changes in absolute numbers
+#for(i in 1:nrow(changes)){
+#  changes$abu26[i]=colSums(exp(abupres[i]))-colSums(exp(abu26[i]))
+#  changes$abu45[i]=colSums(exp(abupres[i]))-colSums(exp(abu45[i]))
+#  changes$abu85[i]=colSums(exp(abupres[i]))-colSums(exp(abu85[i]))
+#}
+
+#changes in proportions
+for(i in 1:nrow(changes)){
+  changes$abu26[i]=1-(colSums(exp(abupres[i]))-colSums(exp(abu26[i])))/colSums(exp(abupres[i]))
+  changes$abu45[i]=1-(colSums(exp(abupres[i]))-colSums(exp(abu45[i])))/colSums(exp(abupres[i]))
+  changes$abu85[i]=1-(colSums(exp(abupres[i]))-colSums(exp(abu85[i])))/colSums(exp(abupres[i]))
+}
+
+glimpse(changes)</code></pre>
+<pre><code>## Observations: 120
+## Variables: 4
+## $ sp_name &lt;fct&gt; Acrocephalus_palustris, Acrocephalus_schoenobaenus, Ac...
+## $ abu26   &lt;dbl&gt; 0.9121859, 1.0711721, 1.0486971, 1.0166477, 1.0273793,...
+## $ abu45   &lt;dbl&gt; 0.9680051, 1.0715367, 1.0628558, 1.0142042, 1.0566984,...
+## $ abu85   &lt;dbl&gt; 1.0458065, 1.0745703, 1.0865219, 1.0111451, 1.1017394,...</code></pre>
+<pre class="r"><code>colMeans(changes[2:4])</code></pre>
+<pre><code>##    abu26    abu45    abu85 
+## 1.013457 1.027793 1.051132</code></pre>
+<pre class="r"><code>mean(colMeans(changes[2:4]))</code></pre>
+<pre><code>## [1] 1.030794</code></pre>
+<p>Keskimääräin lajit runsastuivat jokaisella skenaariolla.</p>
+<div id="eniten-runsastunutta-lajia-jokaisella-skenaariolla" class="section level3">
+<h3>5 eniten runsastunutta lajia jokaisella skenaariolla:</h3>
+<pre class="r"><code>changes[order(-changes$abu26)[1:5],c(1,2)]</code></pre>
+<pre><code>##                      sp_name    abu26
+## 72          Numenius_arquata 1.249256
+## 109          Tringa_glareola 1.188262
+## 85       Phalacrocorax_carbo 1.146963
+## 68          Mergus_merganser 1.134920
+## 46  Fringilla_montifringilla 1.131300</code></pre>
+<pre class="r"><code>changes[order(-changes$abu45)[1:5],c(1,3)]</code></pre>
+<pre><code>##                 sp_name    abu45
+## 85  Phalacrocorax_carbo 1.181232
+## 72     Numenius_arquata 1.147038
+## 109     Tringa_glareola 1.143936
+## 68     Mergus_merganser 1.142013
+## 39  Emberiza_citrinella 1.131340</code></pre>
+<pre class="r"><code>changes[order(-changes$abu85)[1:5],c(1,4)]</code></pre>
+<pre><code>##                 sp_name    abu85
+## 85  Phalacrocorax_carbo 1.241498
+## 79          Parus_major 1.241018
+## 45    Fringilla_coelebs 1.200169
+## 66    Luscinia_luscinia 1.199337
+## 104        Sylvia_borin 1.174581</code></pre>
+</div>
+<div id="eniten-vähentynyttä-lajia-eri-skenaarioilla" class="section level3">
+<h3>5 eniten vähentynyttä lajia eri skenaarioilla:</h3>
+<pre class="r"><code>changes[order(changes$abu26)[1:5],1:2]</code></pre>
+<pre><code>##                     sp_name     abu26
+## 103      Sylvia_atricapilla 0.7278379
+## 113 Troglodytes_troglodytes 0.8266362
+## 32          Corvus_monedula 0.8323371
+## 115           Turdus_merula 0.8533029
+## 63        Loxia_curvirostra 0.8761202</code></pre>
+<pre class="r"><code>changes[order(changes$abu45)[1:5],c(1,3)]</code></pre>
+<pre><code>##                    sp_name     abu45
+## 103     Sylvia_atricapilla 0.8237181
+## 63       Loxia_curvirostra 0.8587896
+## 32         Corvus_monedula 0.8791704
+## 64    Loxia_pytyopsittacus 0.8975609
+## 88  Phylloscopus_collybita 0.9104606</code></pre>
+<pre class="r"><code>changes[order(changes$abu85)[1:5],c(1,4)]</code></pre>
+<pre><code>##                     sp_name     abu85
+## 46 Fringilla_montifringilla 0.8263334
+## 63        Loxia_curvirostra 0.8288045
+## 64     Loxia_pytyopsittacus 0.8894025
+## 84     Perisoreus_infaustus 0.9119360
+## 40         Emberiza_rustica 0.9163473</code></pre>
+<p>Huomaa, että esimerkiksi järripeippo on skenaariolla 26 hyvinkin runsastuva laji, mutta skenaariolla 85 eniten vähenevä laji.</p>
+</div>
+<div id="kuvaaja" class="section level3">
+<h3>kuvaaja</h3>
+<pre class="r"><code>#wide to long format
+abus2=abus %&gt;% pivot_longer(c(abupres,abu26,abu45,abu85), names_to = &quot;scenario&quot;, values_to = &quot;abundance&quot;)
+#add a year variable?
+year=rep(c(2016,2055,2055,2055),times=120)
+abus2=cbind(abus2,year)
+
+#plot an example
+ggplot(subset(abus2, sp_name %in% &quot;Acrocephalus_palustris&quot;), aes(year, abundance, col =scenario )) +         
+  geom_line()</code></pre>
+<pre><code>## geom_path: Each group consists of only one observation. Do you need to
+## adjust the group aesthetic?</code></pre>
+<p><img src="data:image/png;base64,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" width="672" /></p>
+</div>
 </div>
 </div>
 
