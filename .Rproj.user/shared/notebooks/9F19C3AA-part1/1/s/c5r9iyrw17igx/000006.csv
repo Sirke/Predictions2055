@@ -1,2 +1,5 @@
-"0","  "
-"0",""
+"0","#wide to long format"
+"0","abus2=abus %>% pivot_longer(c(abupres,abu26,abu45,abu85), names_to = ""scenario"", values_to = ""abundance"")"
+"2","Error in abus %>% pivot_longer(c(abupres, abu26, abu45, abu85), names_to = ""scenario"",  : 
+  could not find function ""%>%""
+"
