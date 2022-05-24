@@ -1,0 +1,11 @@
+"0","#wide to long format"
+"0","abus2=abus %>% pivot_longer(c(abupres,abu26,abu45,abu85), names_to = ""scenario"", values_to = ""abundance"")"
+"0","#add a year variable?"
+"0","year=rep(c(2016,2055,2055,2055),times=120)"
+"0","abus2=cbind(abus2,year)"
+"0",""
+"0","#plot an example"
+"0","ggplot(subset(abus2, sp_name %in% ""Acrocephalus_palustris""), aes(year, abundance, col =scenario )) +         "
+"0","  geom_line()"
+"2","geom_path: Each group consists of only one observation. Do you need to adjust the group aesthetic?
+"

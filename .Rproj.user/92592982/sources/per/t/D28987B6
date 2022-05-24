@@ -1,0 +1,29 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1648633856654.000,
+    "dirty" : false,
+    "encoding" : "",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "D28987B6",
+    "lastKnownWriteTime" : 30962681237078121,
+    "last_content_update" : 1648633856654,
+    "path" : null,
+    "project_path" : null,
+    "properties" : {
+        "cacheKey" : "E8BBC7DA",
+        "caption" : "papres",
+        "contentUrl" : "grid_resource/gridviewer.html?env=&obj=papres&cache_key=E8BBC7DA",
+        "displayedObservations" : 11878,
+        "environment" : "",
+        "object" : "papres",
+        "preview" : 0,
+        "totalObservations" : 11878,
+        "variables" : 120
+    },
+    "relative_order" : 4,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_dataframe"
+}

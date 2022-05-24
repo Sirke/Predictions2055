@@ -1,0 +1,29 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1648630729151.000,
+    "dirty" : false,
+    "encoding" : "",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "81360AC2",
+    "lastKnownWriteTime" : 30962681237078121,
+    "last_content_update" : 1648630729151,
+    "path" : null,
+    "project_path" : null,
+    "properties" : {
+        "cacheKey" : "53914BCB",
+        "caption" : "abupres",
+        "contentUrl" : "grid_resource/gridviewer.html?env=&obj=abupres&cache_key=53914BCB",
+        "displayedObservations" : 11878,
+        "environment" : "",
+        "object" : "abupres",
+        "preview" : 0,
+        "totalObservations" : 11878,
+        "variables" : 120
+    },
+    "relative_order" : 3,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_dataframe"
+}

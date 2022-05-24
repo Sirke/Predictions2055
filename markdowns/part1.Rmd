@@ -13,7 +13,6 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ```{r}
 #packages
-getwd()
 paketit<-c("here","dplyr","purrr","tidyverse","tidyr")
 lapply(paketit,library,character.only=T)
 ```
@@ -126,6 +125,7 @@ Huomaa, että esimerkiksi järripeippo on skenaariolla 26 hyvinkin runsastuva la
 
 ### kuvaaja
 
+Ei toimi.
 ```{r}
 #wide to long format
 abus2=abus %>% pivot_longer(c(abupres,abu26,abu45,abu85), names_to = "scenario", values_to = "abundance")
@@ -141,6 +141,103 @@ ggplot(subset(abus2, sp_name %in% "Acrocephalus_palustris"), aes(year, abundance
 ```
 
 
+## Lajien esiintymistodennäköisyydessä ennustetut muutokset
+
+```{r}
+sp_name=names(pa26)
+pas=as.data.frame(sp_name)
+pas$papres=NA
+pas$pa26=NA
+pas$pa45=NA
+pas$pa85=NA
+
+#total
+for(i in 1:nrow(pas)){
+  pas$papres[i]=colMeans(papres[i])
+  pas$pa26[i]=colMeans(pa26[i])
+  pas$pa45[i]=colMeans(pa45[i])
+  pas$pa85[i]=colMeans(pa85[i])
+}
+
+str(pas)
+
+changes=as.data.frame(sp_name)
+changes$pa26=NA
+changes$pa45=NA
+changes$pa85=NA
 
 
+#changes in proportions
+for(i in 1:nrow(changes)){
+  changes$pa26[i]=1-(colMeans(papres[i])-colMeans(pa26[i]))/colMeans(papres[i])
+  changes$pa45[i]=1-(colMeans(papres[i])-colMeans(pa45[i]))/colMeans(papres[i])
+  changes$pa85[i]=1-(colMeans(papres[i])-colMeans(pa85[i]))/colMeans(papres[i])
+}
+
+glimpse(changes)
+```
+
+
+## Lajien esiintymisalueiden koossa ennustetut muutokset
+
+```{r}
+sp_name=names(pa26)
+pas=as.data.frame(sp_name)
+pas$papres=NA
+pas$pa26=NA
+pas$pa45=NA
+pas$pa85=NA
+
+#total
+for(i in 1:nrow(pas)){
+  pas$papres[i]=colSums(papres[i]!=0)
+  pas$pa26[i]=colSums(pa26[i]!=0)
+  pas$pa45[i]=colSums(pa45[i]!=0)
+  pas$pa85[i]=colSums(pa85[i]!=0)
+}
+str(pas)
+```
+
+Joillain lajeilla kaikki ruudut (11878 kpl) saavat jonkin nollaa suuremman todennäköisyysarvon eli ovat koko ajan "asuttuja". Tarvitaan ehkä jokin raja-arvo määrittelemään, mikä on asuttu ja mikä ei. 
+
+```{r}
+changes=as.data.frame(sp_name)
+changes$pa26=NA
+changes$pa45=NA
+changes$pa85=NA
+
+
+#changes in proportions
+for(i in 1:nrow(changes)){
+  changes$pa26[i]=1-(colSums(papres[i]!=0)-colSums(pa26[i]!=0))/colSums(papres[i]!=0)
+  changes$pa45[i]=1-(colSums(papres[i]!=0)-colSums(pa45[i]!=0))/colSums(papres[i]!=0)
+  changes$pa85[i]=1-(colSums(papres[i]!=0)-colSums(pa85[i]!=0))/colSums(papres[i]!=0)
+}
+
+glimpse(changes)
+```
+
+
+
+## Lajien esiintymisalueiden painopisteiden sijainnissa ennustetut muutokset
+
+
+
+```{r}
+#nykyisen pääpainopisteen koordinaatit
+
+#new names for grid columns
+grid=rename(grid,c(x=V1,y=V2))
+
+
+lons=unique(grid$x)
+lats=unique(grid$y)
+lats=sort(lats)
+
+abupres2=cbind(abupres,grid)
+names(abupres2)
+
+
+
+```
 
